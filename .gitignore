@@ -1,0 +1,6 @@
+.DS_Store
+OpenVeloV.xcodeproj/
+.swiftpm/
+.build/
+xcuserdata/
+*.xcuserstate

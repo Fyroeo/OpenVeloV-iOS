@@ -1,0 +1,70 @@
+name: OpenVeloV
+options:
+  bundleIdPrefix: net.socialeo
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+packages:
+  VLSKit:
+    path: ../VLSKit
+
+targets:
+  OpenVeloV:
+    type: application
+    platform: iOS
+    sources:
+      - path: OpenVeloVApp
+      - path: Shared
+    dependencies:
+      - package: VLSKit
+        product: VLSKit
+      - package: VLSKit
+        product: VLSKitUI
+      - target: TripLiveActivityExtension
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov
+        PRODUCT_NAME: OpenVeloV
+        SWIFT_VERSION: "5.9"
+        MARKETING_VERSION: "0.3.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: OpenVeloVApp/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2MDRGC529Z
+  TripLiveActivityExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: TripLiveActivityExtension
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov.TripLiveActivityExtension
+        PRODUCT_NAME: TripLiveActivityExtension
+        SWIFT_VERSION: "5.9"
+        MARKETING_VERSION: "0.3.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: TripLiveActivityExtension/Info.plist
+        SKIP_INSTALL: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2MDRGC529Z
+schemes:
+  OpenVeloV:
+    build:
+      targets:
+        OpenVeloV: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    archive:
+      config: Release
