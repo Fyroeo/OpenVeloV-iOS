@@ -1,7 +1,6 @@
 import SwiftUI
 
 /// The count that a `StationMarkerView` pin shows.
-/// The user can switch modes from the map toolbar.
 enum MapNumberMode: String, CaseIterable, Identifiable {
     case all
     case electrical
@@ -19,24 +18,24 @@ enum MapNumberMode: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .all: return "All bikes"
-        case .electrical: return "Electric bikes"
-        case .parking: return "Parking spots"
+        case .all: return String(localized: "All bikes")
+        case .electrical: return String(localized: "Electric bikes")
+        case .parking: return String(localized: "Parking spots")
         }
     }
 
-    /// Short label for the segmented control.
     var shortLabel: String {
         switch self {
-        case .all: return "Bikes"
-        case .electrical: return "E-bikes"
-        case .parking: return "Docks"
+        case .all: return String(localized: "Bikes", comment: "Segmented control: show bike counts on the map")
+        case .electrical: return String(localized: "E-bikes", comment: "Segmented control: show electric bike counts")
+        case .parking: return String(localized: "Docks", comment: "Segmented control: show free dock counts")
         }
     }
 
-    /// The noun for the counted item. Views use it in list rows, for example "22 docks".
     var unitLabel: String {
-        self == .parking ? "docks" : "bikes"
+        self == .parking
+            ? String(localized: "docks", comment: "Plural noun used mid-sentence, e.g. '22 docks'")
+            : String(localized: "bikes", comment: "Plural noun used mid-sentence, e.g. '22 bikes'")
     }
 
     func count(for station: MapStation) -> Int {
@@ -47,9 +46,6 @@ enum MapNumberMode: String, CaseIterable, Identifiable {
         }
     }
 
-    /// True if the station can currently do this mode's action.
-    /// The action is renting a bike or returning a bike.
-    /// Views use this value to show a greyed-out pin when the action is not available.
     func isAvailable(at station: MapStation) -> Bool {
         self == .parking ? station.isReturning : station.isRenting
     }
@@ -64,9 +60,8 @@ enum MapNumberMode: String, CaseIterable, Identifiable {
     }
 }
 
-/// A coarse availability bucket for a station.
-/// The map pins, the legend, and the nearby-stations list all share this value.
-/// This keeps the color coding the same everywhere.
+/// Shared by the map pins, the legend and the nearby-stations list so the colour coding stays
+/// identical across all three.
 enum AvailabilityLevel: CaseIterable {
     case plenty
     case few
@@ -82,9 +77,9 @@ enum AvailabilityLevel: CaseIterable {
 
     var label: String {
         switch self {
-        case .plenty: return "Plenty"
-        case .few: return "Few"
-        case .none: return "None"
+        case .plenty: return String(localized: "Plenty", comment: "Map legend: lots of bikes or docks")
+        case .few: return String(localized: "Few", comment: "Map legend: only a few bikes or docks")
+        case .none: return String(localized: "None", comment: "Map legend: no bikes or docks")
         }
     }
 }

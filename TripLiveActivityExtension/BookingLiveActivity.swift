@@ -2,9 +2,8 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-/// Vélo'v holds a booked bike for 15 minutes.
-/// The server data does not include this duration.
-/// The code assumes a fixed value of 15 minutes to set the start point of the progress bar.
+/// Vélo'v holds a booked bike for 15 minutes. The content state carries only `endDate`, so the
+/// progress bars subtract this to recover where the hold started.
 private let bookingHoldDuration: TimeInterval = 15 * 60
 
 struct BookingLiveActivity: Widget {
@@ -61,13 +60,11 @@ struct BookingLiveActivity: Widget {
     }
 }
 
-/// This badge shows the stand number by itself, not inside a sentence.
-/// The rider needs the stand number to find the correct physical dock.
 private struct StandBadge: View {
     let standNumber: Int
 
     var body: some View {
-        Text("Stand \(standNumber)")
+        Text("Stand \(standNumber.identifierText)")
             .font(.caption.weight(.bold))
             .foregroundStyle(.white)
             .padding(.horizontal, 8)
@@ -76,11 +73,6 @@ private struct StandBadge: View {
     }
 }
 
-/// A clock icon leads this badge, not the bike icon.
-/// This badge shows a countdown, not a bike.
-/// The bike type appears as a small secondary badge only.
-/// The badge color is always blue. Blue is the color for a booking.
-/// TripLiveActivity.swift shows green for an electric bike and red for a mechanical bike instead.
 private struct BookingBadge: View {
     let isElectric: Bool
     var size: CGFloat = 52
@@ -115,7 +107,7 @@ private struct LockScreenView: View {
                     Text("Bike held for you")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.secondary)
-                    Text("Bike #\(state.bikeNumber)")
+                    Text("Bike #\(state.bikeNumber.identifierText)")
                         .font(.system(size: 22, weight: .bold, design: .rounded))
                 }
 

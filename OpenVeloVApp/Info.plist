@@ -10,6 +10,19 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>OpenVeloV</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>net.socialeo.openvelov.deeplink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>openvelov</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,7 +40,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>OpenVeloV uses your location to center the map and show how far you are from nearby Vélo'v stations.</string>
+	<string>OpenVeloV uses your location to center the map, show how far you are from nearby Vélo'v stations, and — if you turn those options on — record your ride's route and tell you when you reach the station holding your bike.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -40,12 +53,24 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>VLSWebClientCode</key>
+	<string>$(VLS_WEB_CLIENT_CODE)</string>
+	<key>VLSWebClientKey</key>
+	<string>$(VLS_WEB_CLIENT_KEY)</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

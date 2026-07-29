@@ -1,368 +1,394 @@
+import CoreLocation
 import SwiftUI
+import UIKit
 
-/// Shows permission priming screens before the system location and notification dialogs.
-/// This lets the rider know why the app asks for each permission, instead of showing 2 OS prompts right after the app opens.
-/// The "Allow" and "Turn On" buttons trigger the real system prompt. The text link below skips the prompt and moves to the next step. The app works either way.
 struct OnboardingView: View {
     let locationManager: LocationManager
     let onFinish: () -> Void
 
-    private enum Step: Int, CaseIterable {
-        case welcome, location, notifications
-    }
-
-    private static let totalPages = Step.allCases.count
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State private var step: Step = .welcome
+    @State private var isRequestingPermission = false
+    @State private var outcomes: [Step: Outcome] = [:]
+
+    enum Step: Int, CaseIterable, Identifiable, Hashable {
+        case welcome, location, notifications
+        var id: Self { self }
+    }
+
+    enum Outcome: Equatable {
+        case granted
+        case declined
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            switch step {
-            case .welcome: welcomeStep
-            case .location: locationStep
-            case .notifications: notificationsStep
+            header
+            pages
+                // An inset rather than an overlay, so the copy scrolls clear of the button
+                // instead of ending up underneath it.
+                .safeAreaInset(edge: .bottom, spacing: 0) { controls }
+        }
+        .background(Color(.systemBackground))
+        .onChange(of: step) { _, _ in
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+        }
+    }
+
+    // MARK: - Header
+
+    private var header: some View {
+        HStack(spacing: 12) {
+            Button {
+                goBack()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 32, height: 32)
+                    .background(Color(.secondarySystemFill), in: Circle())
+            }
+            .opacity(step == .welcome ? 0 : 1)
+            .disabled(step == .welcome || isRequestingPermission)
+            .accessibilityLabel("Back")
+            .accessibilityHidden(step == .welcome)
+
+            OnboardingProgressBar(current: step.rawValue, total: Step.allCases.count)
+
+            Button("Skip") { finish() }
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.secondary)
+                .opacity(step == .welcome ? 0 : 1)
+                .disabled(step == .welcome || isRequestingPermission)
+                .accessibilityHidden(step == .welcome)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 14)
+        .padding(.bottom, 10)
+        .animation(.smooth(duration: 0.25), value: step)
+    }
+
+    // MARK: - Pages
+
+    private var pages: some View {
+        TabView(selection: $step) {
+            ForEach(Step.allCases) { pageStep in
+                OnboardingPage(
+                    content: content(for: pageStep),
+                    isActive: step == pageStep,
+                    illustrationHeight: illustrationHeight
+                )
+                .tag(pageStep)
             }
         }
-        .animation(.snappy, value: step)
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .animation(.smooth(duration: 0.35), value: step)
     }
 
-    private var welcomeStep: some View {
-        PrimingScreen(
-            preview: { WelcomePreview() },
-            themeColor: .blue,
-            systemImage: "bicycle",
-            title: "Welcome to\nOpenVeloV",
-            description: "An independent, unofficial client for Lyon's Vélo'v bike-share — not affiliated with JCDecaux or Grand Lyon.",
-            bullets: [
-                (systemImage: "lock.open.fill", text: "Unlock or book a bike in seconds"),
-                (systemImage: "clock.arrow.circlepath", text: "Track your rides, ratings, and rewards"),
-            ],
-            primaryTitle: "Get Started",
-            skipTitle: nil,
-            currentPage: 0,
-            totalPages: Self.totalPages,
-            onPrimary: { withAnimation { step = .location } },
-            onSkip: nil
-        )
+    private var illustrationHeight: CGFloat? {
+        if dynamicTypeSize.isAccessibilitySize { return nil }
+        return dynamicTypeSize >= .xxLarge ? 180 : 250
     }
 
-    private var locationStep: some View {
-        PrimingScreen(
-            preview: { MapPreview() },
-            themeColor: .blue,
-            systemImage: "mappin",
-            title: "Find bikes\naround you",
-            description: "Allow location access so we can show nearby stations, real-time availability, and turn-by-turn directions to your bike.",
-            bullets: [
-                (systemImage: "magnifyingglass", text: "See the closest available stations"),
-                (systemImage: "location.north.line.fill", text: "Get directions to your bike"),
-            ],
-            primaryTitle: "Allow location access",
-            skipTitle: "Not now",
-            currentPage: 1,
-            totalPages: Self.totalPages,
-            onPrimary: {
-                locationManager.requestAuthorization()
-                withAnimation { step = .notifications }
-            },
-            onSkip: { withAnimation { step = .notifications } }
-        )
+    // MARK: - Controls
+
+    private var controls: some View {
+        VStack(spacing: 8) {
+            Button {
+                performPrimaryAction()
+            } label: {
+                ZStack {
+                    // All three states are stacked and cross-faded: swapping the label in place
+                    // would resize the button mid-animation.
+                    primaryLabel
+                        .opacity(isRequestingPermission || outcome != nil ? 0 : 1)
+
+                    if isRequestingPermission {
+                        ProgressView()
+                            .tint(.white)
+                    }
+
+                    if let outcome, !isRequestingPermission {
+                        Label(
+                            outcome == .granted ? "Allowed" : "Maybe later",
+                            systemImage: outcome == .granted ? "checkmark.circle.fill" : "arrow.right.circle.fill"
+                        )
+                        .font(.headline)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: 52)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(outcome == .granted ? .green : .blue)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .disabled(isRequestingPermission)
+            .animation(.smooth(duration: 0.3), value: outcome)
+            .animation(.smooth(duration: 0.2), value: isRequestingPermission)
+
+            if let secondaryTitle = content(for: step).secondaryTitle {
+                Button(secondaryTitle) { advance() }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: 40)
+                    .disabled(isRequestingPermission)
+                    .opacity(outcome == nil ? 1 : 0)
+            } else {
+                Color.clear.frame(height: 40)
+            }
+        }
+        .padding(.horizontal, 26)
+        .padding(.top, 8)
+        .padding(.bottom, 12)
+        // Deliberately opaque rather than a material: copy scrolling past must not show through.
+        .background(Color(.systemBackground))
     }
 
-    private var notificationsStep: some View {
-        PrimingScreen(
-            preview: { NotificationsPreview() },
-            themeColor: .red,
-            systemImage: "bell.fill",
-            title: "Stay in\nthe loop",
-            description: "Turn on notifications so you never miss a booking hold, a ride reminder, or a docking alert.",
-            bullets: [
-                (systemImage: "clock.fill", text: "Booking hold reminders"),
-                (systemImage: "bubble.left.fill", text: "Docking and end-of-ride alerts"),
-            ],
-            primaryTitle: "Turn on notifications",
-            skipTitle: "Maybe later",
-            currentPage: 2,
-            totalPages: Self.totalPages,
-            onPrimary: {
-                NotificationManager.requestAuthorizationIfNeeded()
-                onFinish()
-            },
-            onSkip: onFinish
-        )
+    private var outcome: Outcome? { outcomes[step] }
+
+    @ViewBuilder
+    private var primaryLabel: some View {
+        Text(content(for: step).primaryTitle)
+            .font(.headline)
+    }
+
+    // MARK: - Actions
+
+    private func performPrimaryAction() {
+        switch step {
+        case .welcome:
+            advance()
+        case .location:
+            Task { await requestLocation() }
+        case .notifications:
+            Task { await requestNotifications() }
+        }
+    }
+
+    private func requestLocation() async {
+        isRequestingPermission = true
+        let status = await locationManager.requestAuthorizationAwaitingDecision()
+        isRequestingPermission = false
+        let granted = status == .authorizedWhenInUse || status == .authorizedAlways
+        await confirm(granted ? .granted : .declined)
+    }
+
+    private func requestNotifications() async {
+        isRequestingPermission = true
+        let granted = await NotificationManager.requestAuthorizationAwaitingDecision()
+        isRequestingPermission = false
+        await confirm(granted ? .granted : .declined)
+    }
+
+    /// Leaves the outcome visible on the button before advancing; the pause is only presentational,
+    /// hence the much shorter one under Reduce Motion.
+    private func confirm(_ result: Outcome) async {
+        outcomes[step] = result
+        UINotificationFeedbackGenerator().notificationOccurred(result == .granted ? .success : .warning)
+        try? await Task.sleep(nanoseconds: reduceMotion ? 250_000_000 : 700_000_000)
+        advance()
+    }
+
+    private func advance() {
+        guard let next = Step(rawValue: step.rawValue + 1) else {
+            finish()
+            return
+        }
+        withAnimation(.smooth(duration: 0.35)) { step = next }
+    }
+
+    private func goBack() {
+        guard let previous = Step(rawValue: step.rawValue - 1) else { return }
+        withAnimation(.smooth(duration: 0.35)) { step = previous }
+    }
+
+    private func finish() {
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        onFinish()
+    }
+
+    // MARK: - Content
+
+    private func content(for step: Step) -> OnboardingContent {
+        switch step {
+        case .welcome:
+            return OnboardingContent(
+                step: .welcome,
+                themeColor: .blue,
+                title: "Welcome to\nOpenVeloV",
+                description: "An independent, unofficial client for Lyon's Vélo'v bike-share — not affiliated with JCDecaux or Grand Lyon.",
+                bullets: [
+                    .init(systemImage: "lock.open.fill", text: "Unlock or book a bike in seconds"),
+                    .init(systemImage: "clock.arrow.circlepath", text: "Track your rides, ratings, and rewards")
+                ],
+                primaryTitle: "Get Started",
+                secondaryTitle: nil
+            )
+        case .location:
+            return OnboardingContent(
+                step: .location,
+                themeColor: .blue,
+                title: "Find bikes\naround you",
+                description: "Allow location access so we can show nearby stations, real-time availability, and walking directions to your bike.",
+                bullets: [
+                    .init(systemImage: "magnifyingglass", text: "See the closest available stations"),
+                    .init(systemImage: "location.north.line.fill", text: "Get directions to your bike")
+                ],
+                primaryTitle: "Allow location access",
+                secondaryTitle: "Not now"
+            )
+        case .notifications:
+            return OnboardingContent(
+                step: .notifications,
+                themeColor: .red,
+                title: "Stay in\nthe loop",
+                description: "Turn on notifications so you never miss a booking hold, the end of your included ride time, or a docking alert.",
+                bullets: [
+                    .init(systemImage: "clock.fill", text: "Booking hold reminders"),
+                    .init(systemImage: "bubble.left.fill", text: "Docking and end-of-ride alerts")
+                ],
+                primaryTitle: "Turn on notifications",
+                secondaryTitle: "Maybe later"
+            )
+        }
     }
 }
 
-/// Shared layout for a single onboarding page.
-///
-/// `themeColor` tints the hero icon and the bullet icons. The notifications page uses red, to read as an alert.
-/// The primary button and the page dots always stay brand blue. The call-to-action must not change color from page to page.
-private struct PrimingScreen<Preview: View>: View {
-    @ViewBuilder let preview: () -> Preview
-    let themeColor: Color
-    let systemImage: String
-    let title: String
-    let description: String
-    let bullets: [(systemImage: String, text: String)]
-    let primaryTitle: String
-    let skipTitle: String?
-    let currentPage: Int
-    let totalPages: Int
-    let onPrimary: () -> Void
-    let onSkip: (() -> Void)?
+// MARK: - Content model
 
-    private let brandColor = Color.blue
+struct OnboardingContent {
+    struct Bullet: Identifiable {
+        let id = UUID()
+        let systemImage: String
+        let text: LocalizedStringKey
+    }
+
+    let step: OnboardingView.Step
+    let themeColor: Color
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
+    let bullets: [Bullet]
+    let primaryTitle: LocalizedStringKey
+    let secondaryTitle: LocalizedStringKey?
+}
+
+// MARK: - Progress
+
+struct OnboardingProgressBar: View {
+    let current: Int
+    let total: Int
+
+    var body: some View {
+        HStack(spacing: 5) {
+            ForEach(0..<total, id: \.self) { index in
+                Capsule()
+                    .fill(index <= current ? Color.blue : Color(.systemGray4))
+                    .frame(height: 5)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .animation(.smooth(duration: 0.35), value: current)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Step \(current + 1) of \(total)")
+    }
+}
+
+// MARK: - Page
+
+private struct OnboardingPage: View {
+    let content: OnboardingContent
+    let isActive: Bool
+    let illustrationHeight: CGFloat?
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var hasRevealed = false
 
     var body: some View {
         VStack(spacing: 0) {
-            preview()
-                .frame(height: 300)
-                .frame(maxWidth: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 28))
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
+            if let illustrationHeight {
+                illustration
+                    .frame(height: illustrationHeight)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
+                    .padding(.horizontal, 20)
+                    .accessibilityHidden(true)
+            }
 
-            VStack(alignment: .leading, spacing: 18) {
-                Image(systemName: systemImage)
-                    .font(.system(size: 28, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: 66, height: 66)
-                    .background(themeColor, in: RoundedRectangle(cornerRadius: 20))
-                    .shadow(color: themeColor.opacity(0.35), radius: 12, y: 6)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    // No hero icon above the title: it duplicated the illustration and pushed the
+                    // last bullet off-screen.
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(content.title)
+                            .font(.largeTitle.bold())
+                            .fixedSize(horizontal: false, vertical: true)
+                            .reveal(hasRevealed, index: 0, reduceMotion: reduceMotion)
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(title)
-                        .font(.system(size: 28, weight: .bold))
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(description)
-                        .font(.system(size: 16))
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                        Text(content.description)
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .reveal(hasRevealed, index: 1, reduceMotion: reduceMotion)
+                    }
 
-                VStack(alignment: .leading, spacing: 14) {
-                    ForEach(bullets, id: \.text) { bullet in
-                        HStack(spacing: 12) {
-                            Image(systemName: bullet.systemImage)
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(themeColor)
-                                .frame(width: 30, height: 30)
-                                .background(themeColor.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
-                            Text(bullet.text)
-                                .font(.system(size: 14.5))
-                                .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 14) {
+                        ForEach(Array(content.bullets.enumerated()), id: \.element.id) { index, bullet in
+                            HStack(spacing: 12) {
+                                Image(systemName: bullet.systemImage)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(content.themeColor)
+                                    .frame(width: 30, height: 30)
+                                    .background(content.themeColor.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
+                                Text(bullet.text)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .reveal(hasRevealed, index: 2 + index, reduceMotion: reduceMotion)
                         }
                     }
                 }
-
-                Spacer(minLength: 8)
-
-                Button(action: onPrimary) {
-                    Text(primaryTitle)
-                        .font(.system(size: 17, weight: .semibold))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 52)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(brandColor)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-
-                if let skipTitle, let onSkip {
-                    Button(skipTitle, action: onSkip)
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                }
-
-                HStack(spacing: 7) {
-                    ForEach(0..<totalPages, id: \.self) { index in
-                        Circle()
-                            .fill(index == currentPage ? brandColor : Color(.systemGray4))
-                            .frame(width: 7, height: 7)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 26)
+                .padding(.top, 20)
             }
-            .padding(.horizontal, 26)
-            .padding(.top, 4)
+            .scrollBounceBehavior(.basedOnSize)
+        }
+        .onChange(of: isActive) { _, active in
+            // Clearing this on the way out is what makes the stagger replay if the rider swipes back.
+            hasRevealed = active
+        }
+        .onAppear { hasRevealed = isActive }
+    }
+
+    @ViewBuilder
+    private var illustration: some View {
+        switch content.step {
+        case .welcome: WelcomeIllustration(isActive: isActive)
+        case .location: LocationIllustration(isActive: isActive)
+        case .notifications: NotificationsIllustration(isActive: isActive)
         }
     }
 }
 
-private struct WelcomePreview: View {
-    var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width
-            let h = geo.size.height
+// MARK: - Stagger
 
-            ZStack {
-                LinearGradient(
-                    colors: [Color.blue, Color(red: 0.2, green: 0.6, blue: 0.95)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-
-                Circle()
-                    .fill(.white.opacity(0.12))
-                    .frame(width: w * 0.6)
-                    .position(x: w * 0.08, y: h * 0.05)
-
-                Circle()
-                    .fill(.white.opacity(0.1))
-                    .frame(width: w * 0.45)
-                    .position(x: w * 0.95, y: h * 0.95)
-
-                Image(systemName: "bicycle")
-                    .font(.system(size: 88, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .position(x: w * 0.5, y: h * 0.46)
-
-                LinearGradient(colors: [.clear, Color(.systemBackground)], startPoint: .init(x: 0.5, y: 0.6), endPoint: .bottom)
-            }
-        }
-    }
-}
-
-/// A stylized stand-in for a map. It does not use real MapKit data.
-private struct MapPreview: View {
-    private let landColor = Color(red: 0.914, green: 0.925, blue: 0.882) // #e9ece1
-    private let waterColor = Color(red: 0.663, green: 0.847, blue: 0.937) // #a9d8ef
-    private let parkColor = Color(red: 0.812, green: 0.902, blue: 0.706) // #cfe6b4
-
-    var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width
-            let h = geo.size.height
-
-            ZStack {
-                landColor
-
-                Rectangle()
-                    .fill(waterColor)
-                    .frame(width: w * 0.34, height: h * 2.4)
-                    .rotationEffect(.degrees(-14))
-                    .position(x: w * 0.68, y: h * 0.5)
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(parkColor)
-                    .frame(width: w * 0.28, height: h * 0.22)
-                    .position(x: w * 0.2, y: h * 0.21)
-
-                RoundedRectangle(cornerRadius: 22)
-                    .fill(parkColor)
-                    .frame(width: w * 0.24, height: h * 0.26)
-                    .position(x: w * 0.2, y: h * 0.81)
-
-                street(width: 6, length: h * 1.3, rotation: 11)
-                    .position(x: w * 0.26, y: h * 0.5)
-                street(width: 6, length: h * 1.3, rotation: -8)
-                    .position(x: w * 0.72, y: h * 0.5)
-                street(width: 6, length: w * 1.3, rotation: 5)
-                    .position(x: w * 0.5, y: h * 0.38)
-
-                pin(color: .green, x: w * 0.25, y: h * 0.22)
-                pin(color: .orange, x: w * 0.78, y: h * 0.16)
-                pin(color: .green, x: w * 0.82, y: h * 0.68)
-                pin(color: .green, x: w * 0.22, y: h * 0.78)
-
-                Circle()
-                    .fill(Color.blue.opacity(0.18))
-                    .frame(width: 46, height: 46)
-                    .position(x: w * 0.44, y: h * 0.52)
-                Circle()
-                    .fill(Color.blue)
-                    .frame(width: 22, height: 22)
-                    .overlay(Circle().stroke(.white, lineWidth: 3))
-                    .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
-                    .position(x: w * 0.44, y: h * 0.52)
-
-                LinearGradient(colors: [.clear, Color(.systemBackground)], startPoint: .init(x: 0.5, y: 0.55), endPoint: .bottom)
-            }
-        }
-    }
-
-    private func street(width: CGFloat, length: CGFloat, rotation: Double) -> some View {
-        Rectangle()
-            .fill(.white)
-            .frame(width: width, height: length)
-            .rotationEffect(.degrees(rotation))
-    }
-
-    private func pin(color: Color, x: CGFloat, y: CGFloat) -> some View {
-        Image(systemName: "mappin.circle.fill")
-            .font(.title2)
-            .foregroundStyle(.white, color)
-            .shadow(radius: 2)
-            .position(x: x, y: y)
-    }
-}
-
-/// Preview cards for the notifications the app sends: booking hold, ride-ending alert, and post-ride summary.
-private struct NotificationsPreview: View {
-    var body: some View {
-        ZStack(alignment: .top) {
-            LinearGradient(
-                colors: [Color(red: 0.918, green: 0.953, blue: 1.0), Color(red: 0.953, green: 0.969, blue: 1.0)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+private extension View {
+    func reveal(_ isRevealed: Bool, index: Int, reduceMotion: Bool) -> some View {
+        opacity(isRevealed ? 1 : 0)
+            .offset(y: reduceMotion ? 0 : (isRevealed ? 0 : 18))
+            .animation(
+                reduceMotion
+                    ? .easeOut(duration: 0.25)
+                    : .smooth(duration: 0.5).delay(0.12 + Double(index) * 0.07),
+                value: isRevealed
             )
-
-            VStack(spacing: 11) {
-                NotificationCard(iconBackground: .blue, systemImage: "bicycle", title: "Bike reserved", subtitle: "Held for 10 min · Dock 5, Ainay", time: "now")
-                    .rotationEffect(.degrees(-1.5))
-
-                NotificationCard(iconBackground: .orange, systemImage: "clock.fill", title: "Ride ending soon", subtitle: "Find a dock to avoid extra fees", time: "2m")
-                    .rotationEffect(.degrees(1.2))
-                    .padding(.leading, 14)
-
-                NotificationCard(iconBackground: .green, systemImage: "checkmark", title: "Ride complete", subtitle: "17 min · €2.40 · 4.2 km", time: "1h")
-                    .rotationEffect(.degrees(-0.8))
-                    .opacity(0.85)
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 24)
-
-            LinearGradient(colors: [.clear, Color(.systemBackground)], startPoint: .init(x: 0.5, y: 0.55), endPoint: .bottom)
-        }
     }
 }
 
-private struct NotificationCard: View {
-    let iconBackground: Color
-    let systemImage: String
-    let title: String
-    let subtitle: String
-    let time: String
-
-    var body: some View {
-        HStack(alignment: .center, spacing: 11) {
-            Image(systemName: systemImage)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 36, height: 36)
-                .background(iconBackground, in: RoundedRectangle(cornerRadius: 9))
-
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.black)
-                Text(subtitle)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-
-            Spacer(minLength: 4)
-
-            Text(time)
-                .font(.system(size: 11))
-                .foregroundStyle(.tertiary)
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
-        .background(Color(.systemBackground).opacity(0.95), in: RoundedRectangle(cornerRadius: 16))
-        .shadow(color: Color(red: 0, green: 0.235, blue: 0.549).opacity(0.1), radius: 9, y: 3)
-    }
+#Preview {
+    OnboardingView(locationManager: LocationManager()) {}
 }

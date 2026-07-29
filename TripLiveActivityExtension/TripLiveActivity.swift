@@ -30,7 +30,7 @@ struct TripLiveActivity: Widget {
                     HStack(spacing: 6) {
                         Image(systemName: "mappin.circle.fill")
                             .foregroundStyle(.secondary)
-                        Text("Bike #\(context.state.bikeNumber) · \(context.state.stationName)")
+                        Text("Bike #\(context.state.bikeNumber.identifierText) · \(context.state.stationName)")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
@@ -57,9 +57,8 @@ extension TripActivityAttributes.ContentState {
     var typeColor: Color { isElectric ? .green : .red }
 }
 
-/// This badge is a rounded square icon for the bike type.
-/// The style matches the bike icon in ActiveTripBanner in the main app.
-/// The match keeps the Live Activity and the app screen visually consistent.
+/// Deliberately mirrors the bike icon in the main app's `ActiveTripBanner`; change both together
+/// or the Live Activity and the in-app banner stop looking like the same thing.
 struct BikeBadge: View {
     let isElectric: Bool
     var size: CGFloat = 52
@@ -97,10 +96,10 @@ private struct LockScreenView: View {
             Spacer(minLength: 8)
 
             VStack(alignment: .trailing, spacing: 3) {
-                Text(state.isElectric ? "Electric" : "Mechanical")
+                (state.isElectric ? Text("Electric") : Text("Mechanical"))
                     .font(.caption.weight(.medium))
                     .foregroundStyle(state.typeColor)
-                Text("Bike #\(state.bikeNumber)")
+                Text("Bike #\(state.bikeNumber.identifierText)")
                     .font(.subheadline.weight(.semibold))
                 Text(state.stationName)
                     .font(.caption2)

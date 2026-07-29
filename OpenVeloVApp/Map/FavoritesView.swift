@@ -1,29 +1,31 @@
 import SwiftUI
 import VLSKit
 
-/// The list of favorite stations. The user opens it from the hamburger menu.
-/// This view matches the account's saved station numbers against the live station list.
-/// This way, each row shows the current availability.
 struct FavoritesView: View {
-    @ObservedObject var authVM: AuthViewModel
-    @ObservedObject var tripVM: TripViewModel
-    @ObservedObject var bookingVM: BookingViewModel
+    @ObservedObject var favorites: FavoritesStore
     @ObservedObject var stationsVM: StationsViewModel
-    let bikeDetailClient: BikeDetailClient
+    @ObservedObject var authVM: AuthViewModel
+    let userLocation: UserLocation?
+    let onSelect: (MapStation) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedStation: MapStation?
 
-    private var favorites: [MapStation] {
-        authVM.favoriteStationNumbers
-            .compactMap { number in stationsVM.stations.first { $0.id == String(number) } }
-            .sorted { $0.name < $1.name }
+    private var stations: [MapStation] {
+        let matched = favorites.stationNumbers.compactMap { stationsVM.station(forNumber: $0) }
+        guard let userLocation else { return matched.sorted { $0.name < $1.name } }
+        return matched.sorted { userLocation.distance(to: $0.coordinate) < userLocation.distance(to: $1.coordinate) }
+    }
+
+    private var unmatchedNumbers: [Int] {
+        favorites.stationNumbers
+            .filter { stationsVM.station(forNumber: $0) == nil }
+            .sorted()
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                if favorites.isEmpty {
+                if favorites.stationNumbers.isEmpty {
                     ContentUnavailableView(
                         "No Favorites Yet",
                         systemImage: "star",
@@ -31,20 +33,45 @@ struct FavoritesView: View {
                     )
                 } else {
                     List {
-                        ForEach(favorites) { station in
-                            Button {
-                                selectedStation = station
-                            } label: {
-                                FavoriteRow(station: station)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .onDelete { indexSet in
-                            let toRemove = indexSet.map { favorites[$0] }
-                            for station in toRemove {
-                                if let number = Int(station.id) {
-                                    Task { await authVM.toggleFavorite(stationNumber: number) }
+                        Section {
+                            ForEach(stations) { station in
+                                Button {
+                                    onSelect(station)
+                                    dismiss()
+                                } label: {
+                                    StationListRow(
+                                        station: station,
+                                        userLocation: userLocation,
+                                        hasBonus: stationsVM.hasBonus(stationNumber: station.number)
+                                    )
                                 }
+                                .buttonStyle(.plain)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        unstar(station.number)
+                                    } label: {
+                                        Label("Remove", systemImage: "star.slash")
+                                    }
+                                }
+                            }
+                        }
+
+                        if !unmatchedNumbers.isEmpty {
+                            Section {
+                                ForEach(unmatchedNumbers, id: \.self) { number in
+                                    HStack {
+                                        Label("Station \(number.identifierText)", systemImage: "questionmark.circle")
+                                            .foregroundStyle(.secondary)
+                                        Spacer()
+                                        Button("Remove") { unstar(number) }
+                                            .buttonStyle(.borderless)
+                                            .font(.caption.weight(.semibold))
+                                    }
+                                }
+                            } header: {
+                                Text("Not in the live feed")
+                            } footer: {
+                                Text("These stations aren't reporting right now. They may have been removed from the network.")
                             }
                         }
                     }
@@ -56,50 +83,12 @@ struct FavoritesView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { dismiss() }
                 }
-                if !favorites.isEmpty {
-                    ToolbarItem(placement: .primaryAction) {
-                        EditButton()
-                    }
-                }
             }
-        }
-        .sheet(item: $selectedStation) { station in
-            StationDetailView(station: station, bikeDetailClient: bikeDetailClient, authVM: authVM, tripVM: tripVM, bookingVM: bookingVM, stationsVM: stationsVM)
         }
     }
-}
 
-private struct FavoriteRow: View {
-    let station: MapStation
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "star.fill")
-                .font(.subheadline)
-                .foregroundStyle(.yellow)
-                .frame(width: 32)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(station.name)
-                    .font(.subheadline.weight(.semibold))
-                    .lineLimit(1)
-                HStack(spacing: 10) {
-                    Label("\(station.mechanicalBikes)", systemImage: "bicycle")
-                        .foregroundStyle(.red)
-                    Label("\(station.electricalBikes)", systemImage: "bolt.fill")
-                        .foregroundStyle(.green)
-                    Label("\(station.docksAvailable)", systemImage: "parkingsign")
-                        .foregroundStyle(.secondary)
-                }
-                .font(.caption)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
-        }
-        .padding(.vertical, 4)
+    private func unstar(_ number: Int?) {
+        guard let number else { return }
+        Task { await favorites.toggle(number, client: authVM.isAuthenticated ? authVM.client : nil, accountId: authVM.accountId) }
     }
 }

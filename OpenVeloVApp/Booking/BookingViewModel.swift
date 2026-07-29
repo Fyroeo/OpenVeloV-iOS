@@ -1,23 +1,32 @@
+import CoreLocation
 import Foundation
 import VLSKit
 
-/// Tracks the rider's active booking hold: creating, unlocking, and expiry.
 @MainActor
 final class BookingViewModel: ObservableObject {
     @Published private(set) var activeBooking: Booking?
 
     private let authViewModel: AuthViewModel
     private let tripViewModel: TripViewModel
+    private let settings: AppSettings
+    private let locationService: RideLocationService
     private var isPreviewBooking = false
     private var bookingExpiryTask: Task<Void, Never>?
 
-    init(authViewModel: AuthViewModel, tripViewModel: TripViewModel) {
+    init(
+        authViewModel: AuthViewModel,
+        tripViewModel: TripViewModel,
+        settings: AppSettings,
+        locationService: RideLocationService
+    ) {
         self.authViewModel = authViewModel
         self.tripViewModel = tripViewModel
+        self.settings = settings
+        self.locationService = locationService
     }
 
-    /// Excludes `consumedBookingID`; see `clearActiveBookingAfterUnlock`; so a
-    /// just-unlocked hold cannot reappear from a stale server refresh.
+    /// The server keeps reporting a hold as active even after a ride has consumed it, so
+    /// `consumedBookingID` is excluded here to stop a stale refresh resurrecting it.
     func refreshActiveBooking() async {
         guard authViewModel.isAuthenticated, let accountId = authViewModel.accountId else {
             await setActiveBooking(nil)
@@ -27,24 +36,24 @@ final class BookingViewModel: ObservableObject {
             let bookings = try await authViewModel.client.bookings.bookings(accountId: accountId)
             await setActiveBooking(bookings.first { $0.endTime > Date() && $0.id != consumedBookingID })
         } catch {
-            // Likely transient. Keep the last known state.
+            // A failed refresh is usually transient, so the last known booking state is kept.
         }
     }
 
-    /// Unlocks the currently booked bike. A real, billable action; callers must confirm
-    /// first. A preview booking only simulates this and never reaches the server.
+    /// A real, billable action, so callers must confirm first; a preview booking only simulates it
+    /// and never reaches the server.
     func unlockActiveBooking() async -> (success: Bool, message: String) {
         guard let booking = activeBooking else {
-            return (false, "No active booking.")
+            return (false, String(localized: "No active booking."))
         }
         if isPreviewBooking {
             activeBooking = nil
             isPreviewBooking = false
             LiveActivityManager.endBookingActivity()
-            return (true, "Preview only — no real bike was unlocked.")
+            return (true, String(localized: "Preview only — no real bike was unlocked."))
         }
         guard let accountId = authViewModel.accountId, let stationNumber = booking.stationNumber else {
-            return (false, "This booking is missing the details needed to unlock.")
+            return (false, String(localized: "This booking is missing the details needed to unlock."))
         }
         do {
             let subscriptionId = try await authViewModel.resolveActiveSubscriptionId()
@@ -59,41 +68,31 @@ final class BookingViewModel: ObservableObject {
             if response.transactionState == .ok {
                 // Booking clears only once a trip actually starts — see `handleTripStarted`.
                 tripViewModel.watchForRideStart()
-                return (true, "You have 60 seconds to take the bike out of the stand.")
+                return (true, String(localized: "You have 60 seconds to take the bike out of the stand."))
             } else {
-                return (false, "Unlock status: \(response.transactionState.rawValue)")
+                return (false, String(localized: "Vélo'v turned down the unlock (\(response.transactionState.rawValue)). Try again, or pick another bike."))
             }
         } catch {
-            return (false, error.localizedDescription)
+            return (false, UserFacingError.message(for: error, context: .unlock))
         }
     }
 
-    /// Called once `TripViewModel` confirms a new trip has started, not right after
-    /// `releaseBike` succeeds, since a successful unlock alone does not confirm the
-    /// rider got the bike out.
-    ///
-    /// The booking API has no "this hold was consumed" signal: the server keeps
-    /// reporting it as active until it expires. Clearing `activeBooking` in memory is
-    /// not enough, since the next `refreshActiveBooking()` would re-adopt that stale
-    /// record. `consumedBookingID` marks it to be ignored regardless of what the
-    /// server still reports.
     func handleTripStarted() async {
         guard activeBooking != nil else { return }
         consumedBookingID = activeBooking?.id
         await setActiveBooking(nil)
     }
 
-    /// Ends tracking and the Live Activity, for sign-out.
     func reset() {
         bookingExpiryTask?.cancel()
         bookingExpiryTask = nil
         LiveActivityManager.endBookingActivity()
+        locationService.stopWatchingBooking()
+        NotificationManager.cancelBookingArrival()
         activeBooking = nil
         isPreviewBooking = false
     }
 
-    /// Persisted, not just in-memory, since the same stale-refresh risk exists on the
-    /// next app launch.
     private var consumedBookingID: UUID? {
         get { UserDefaults.standard.string(forKey: "consumedBookingID").flatMap(UUID.init(uuidString:)) }
         set { UserDefaults.standard.set(newValue?.uuidString, forKey: "consumedBookingID") }
@@ -106,8 +105,7 @@ final class BookingViewModel: ObservableObject {
         bookingExpiryTask = nil
         guard let booking else {
             if hadActiveBooking {
-                LiveActivityManager.endBookingActivity()
-                NotificationManager.cancelBookingExpiry()
+                endBookingSideEffects()
             }
             return
         }
@@ -115,8 +113,7 @@ final class BookingViewModel: ObservableObject {
         guard interval > 0 else {
             activeBooking = nil
             if hadActiveBooking {
-                LiveActivityManager.endBookingActivity()
-                NotificationManager.cancelBookingExpiry()
+                endBookingSideEffects()
             }
             return
         }
@@ -128,6 +125,13 @@ final class BookingViewModel: ObservableObject {
             LiveActivityManager.startBooking(endDate: booking.endTime, bikeNumber: display.bikeNumber, stationName: display.stationName, standNumber: standNumber, isElectric: display.isElectric)
         }
         NotificationManager.scheduleBookingExpiry(endDate: booking.endTime, bikeNumber: display.bikeNumber, stationName: display.stationName)
+        if settings.isBookingArrivalAlertEnabled, let coordinate = display.coordinate {
+            locationService.startWatchingBooking(
+                coordinate: coordinate,
+                stationName: display.stationName,
+                bikeNumber: display.bikeNumber
+            )
+        }
         bookingExpiryTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
             guard !Task.isCancelled, let self else { return }
@@ -135,15 +139,28 @@ final class BookingViewModel: ObservableObject {
         }
     }
 
-    /// A booking has only `stationNumber`/`bikeId`; resolves the display name and bike
-    /// number from those, best-effort.
-    private func resolveBookingDisplay(_ booking: Booking) async -> (stationName: String, bikeNumber: Int, isElectric: Bool) {
-        var stationName = booking.stationNumber.map { "Station \($0)" } ?? "Vélo'v station"
+    private func endBookingSideEffects() {
+        LiveActivityManager.endBookingActivity()
+        NotificationManager.cancelBookingExpiry()
+        NotificationManager.cancelBookingArrival()
+        locationService.stopWatchingBooking()
+    }
+
+    /// A `Booking` carries only `stationNumber` and `bikeId`, so the station name, coordinate and
+    /// bike number each need a separate best-effort lookup that is allowed to come back empty.
+    private func resolveBookingDisplay(
+        _ booking: Booking
+    ) async -> (stationName: String, bikeNumber: Int, isElectric: Bool, coordinate: CLLocationCoordinate2D?) {
+        var stationName = booking.stationNumber.map { String(localized: "Station \($0.identifierText)") } ?? String(localized: "Vélo'v station")
         var bikeNumber = 0
         var isElectric = false
+        var coordinate: CLLocationCoordinate2D?
         if let stationNumber = booking.stationNumber {
             if let station = try? await authViewModel.client.stations.station(number: stationNumber) {
                 stationName = station.name
+                if let location = station.location {
+                    coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                }
             }
             if let bikesAtStation = try? await authViewModel.client.bikes.bikes(atStationNumber: stationNumber),
                let bike = bikesAtStation.first(where: { $0.id == booking.bikeId }) {
@@ -151,11 +168,10 @@ final class BookingViewModel: ObservableObject {
                 isElectric = bike.type == .electrical
             }
         }
-        return (stationName, bikeNumber, isElectric)
+        return (stationName, bikeNumber, isElectric, coordinate)
     }
 
 #if DEBUG
-    /// Debug-only: previews the booking-hold UI with a fake booking, bypassing the network.
     func togglePreviewBooking() {
         if activeBooking != nil {
             activeBooking = nil

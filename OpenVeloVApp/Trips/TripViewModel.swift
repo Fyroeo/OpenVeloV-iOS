@@ -2,29 +2,28 @@ import Foundation
 import UIKit
 import VLSKit
 
-/// Tracks the rider's active trip: starting, ending, and watching for a ride to start
-/// after an unlock.
 @MainActor
 final class TripViewModel: ObservableObject {
     @Published private(set) var activeTrip: Trip?
-    /// Set the instant a ride ends unrated. Cleared once rated or dismissed.
     @Published var tripToRate: Trip?
+    @Published private(set) var didUploadRouteForLastTrip = false
 
     private let authViewModel: AuthViewModel
+    private let settings: AppSettings
+    private let locationService: RideLocationService
     private var tripPollTask: Task<Void, Never>?
     private var rideStartWatchTask: Task<Void, Never>?
     private var rideStartBackgroundTaskID: UIBackgroundTaskIdentifier = .invalid
 
-    /// Called once a new trip is confirmed to have started, so `BookingViewModel` can
-    /// clear a booking that led to it.
+    /// Fired only on the transition into a ride, not on every poll that still sees one.
     var onTripStarted: (() async -> Void)?
 
-    init(authViewModel: AuthViewModel) {
+    init(authViewModel: AuthViewModel, settings: AppSettings, locationService: RideLocationService) {
         self.authViewModel = authViewModel
+        self.settings = settings
+        self.locationService = locationService
     }
 
-    /// Detects when the rider docks the bike and ends the ride. `startTripPolling`
-    /// calls this function periodically while a trip is active.
     func refreshActiveTrip() async {
         guard authViewModel.isAuthenticated, let accountId = authViewModel.accountId else {
             await setActiveTrip(nil)
@@ -34,14 +33,13 @@ final class TripViewModel: ObservableObject {
             let trips = try await authViewModel.client.trips.ongoingTrips(accountId: accountId)
             await setActiveTrip(trips.first)
         } catch {
-            // Likely transient. Keep the last known state.
+            // Keep the last known trip: treating a failed request as "no trip" would end the Live
+            // Activity and prompt for a rating mid-ride.
         }
     }
 
-    /// Call right after a successful `releaseBike`, not at ride start — those are 2
-    /// different moments. Unlocking opens a ~60s window to pull the bike out, and
-    /// `ongoingTrips` reports nothing until the rider does, so this polls for up to 100s
-    /// in the background instead of assuming the trip starts at once.
+    /// Call right after a successful `releaseBike`: the server only opens the trip once the rider
+    /// actually pulls the bike out, so poll for up to 100 seconds waiting for it to appear.
     func watchForRideStart() {
         rideStartWatchTask?.cancel()
         endRideStartBackgroundTask()
@@ -60,15 +58,20 @@ final class TripViewModel: ObservableObject {
         }
     }
 
-    /// Ends tracking and the Live Activity, for sign-out.
     func reset() {
         stopTripPolling()
         rideStartWatchTask?.cancel()
         rideStartWatchTask = nil
         endRideStartBackgroundTask()
         LiveActivityManager.endCurrent()
+        NotificationManager.cancelRideEndingSoon()
+        locationService.stopRecordingRide()
         activeTrip = nil
         tripToRate = nil
+    }
+
+    func acknowledgeRouteUpload() {
+        didUploadRouteForLastTrip = false
     }
 
     private func endRideStartBackgroundTask() {
@@ -87,17 +90,50 @@ final class TripViewModel: ObservableObject {
             } else {
                 LiveActivityManager.start(trip: trip)
                 startTripPolling()
+                beginRideSideEffects(for: trip)
                 await onTripStarted?()
             }
         } else if hadActiveTrip {
             LiveActivityManager.endCurrent()
             stopTripPolling()
+            NotificationManager.cancelRideEndingSoon()
             if let previousTrip {
                 NotificationManager.notifyRideEnded(trip: previousTrip)
+                await finishRouteRecording(for: previousTrip)
                 if previousTrip.isRated != true {
                     tripToRate = previousTrip
                 }
             }
+        }
+    }
+
+    /// Called once, when the ride is first seen, so the ten-second poll does not reschedule these.
+    private func beginRideSideEffects(for trip: Trip) {
+        if settings.isRideEndingAlertEnabled {
+            NotificationManager.scheduleRideEndingSoon(
+                startDate: trip.startDateTime ?? Date(),
+                freeMinutes: settings.freeRideMinutes,
+                leadMinutes: settings.rideEndingLeadMinutes,
+                bikeNumber: trip.bikeNumber
+            )
+        }
+        if settings.isRouteRecordingEnabled {
+            locationService.startRecordingRide()
+        }
+    }
+
+    private func finishRouteRecording(for trip: Trip) async {
+        let points = locationService.stopRecordingRide()
+        guard !points.isEmpty,
+              let accountId = authViewModel.accountId,
+              let tripId = trip.id else { return }
+        do {
+            try await authViewModel.client.trips.uploadRoute(accountId: accountId, tripId: tripId, points: points)
+            didUploadRouteForLastTrip = true
+        } catch {
+#if DEBUG
+            print("[OpenVeloV] route upload failed: \(error.localizedDescription)")
+#endif
         }
     }
 
@@ -118,7 +154,6 @@ final class TripViewModel: ObservableObject {
     }
 
 #if DEBUG
-    /// Debug-only: previews the active-ride UI with a fake trip, bypassing the network.
     func togglePreviewRide() {
         if activeTrip != nil {
             activeTrip = nil
@@ -133,7 +168,8 @@ final class TripViewModel: ObservableObject {
           "startDateTime": "\(formatter.string(from: started))" }
         """
         guard let trip = try? JSONDecoder.vls.decode(Trip.self, from: Data(json.utf8)) else { return }
-        // Set directly, not via `setActiveTrip`, so the trip poll does not clear it.
+        // Set directly rather than via `setActiveTrip`, which would start the poll and immediately
+        // clear this fake trip.
         activeTrip = trip
         LiveActivityManager.start(trip: trip)
     }

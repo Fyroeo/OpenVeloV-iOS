@@ -2,7 +2,6 @@ import Foundation
 import VLSKit
 import VLSKitUI
 
-/// Manages sign-in with `VLSClient`: Keycloak PKCE login and the resulting `Account`.
 @MainActor
 final class AuthViewModel: ObservableObject {
     let client: VLSClient
@@ -10,22 +9,51 @@ final class AuthViewModel: ObservableObject {
     @Published private(set) var isAuthenticated = false
     @Published private(set) var account: Account?
     @Published private(set) var isLoadingAccount = false
-    @Published private(set) var rewardBalance: Int?
+    @Published private(set) var reward: Reward?
+    @Published private(set) var rewardAutoSpend = false
+    /// Blocking account statuses (e.g. `NO_VALID_SUBSCRIPTIONS`). Loaded with the account,
+    /// so the app can explain up front why booking or unlocking will fail.
+    @Published private(set) var blockingAlerts: [Alert] = []
     @Published var isPresentingLogin = false
     @Published private(set) var pendingAuthorization: PendingAuthorization?
     @Published var errorMessage: String?
-    @Published private(set) var favoriteStationNumbers: Set<Int> = []
 
     private(set) var accountId: UUID?
     private var activeSubscriptionId: UUID?
 
-    init(environment: VLSEnvironment = .lyon) {
+    /// Favourites live in `FavoritesStore` so they keep working signed out.
+    private let favorites: FavoritesStore
+
+    var onAccountLoaded: ((UUID) async -> Void)?
+
+    /// Not a bare `VLSEnvironment.lyon`: that preset ships empty web-client credentials, and
+    /// authenticated calls also need the anonymous `Authorization: Taknv1` token minted from them.
+    init(environment: VLSEnvironment = AppSecrets.environment, favorites: FavoritesStore) {
         self.client = VLSClient(environment: environment, tokenStore: KeychainTokenStore())
+        self.favorites = favorites
     }
 
     var redirectURI: URL { client.environment.oidcRedirectURI }
 
-    /// Resumes a session saved in the Keychain.
+    var rewardBalance: Int? { reward?.balance }
+
+    /// A rider-facing reason the account can't ride, or `nil` if nothing blocks it.
+    var blockingAlertMessage: String? {
+        guard let alert = blockingAlerts.first else { return nil }
+        switch alert.value {
+        case "NO_VALID_SUBSCRIPTIONS":
+            return String(localized: "You have no active Vélo'v subscription, so booking and unlocking are unavailable.")
+        default:
+            return String(localized: "Your Vélo'v account has a hold that prevents booking and unlocking.")
+        }
+    }
+
+    var displayName: String? {
+        guard let account else { return nil }
+        let fullName = [account.firstName, account.lastName].compactMap { $0 }.joined(separator: " ")
+        return fullName.isEmpty ? nil : fullName
+    }
+
     func refreshAuthenticationState() async {
         isAuthenticated = await client.isAuthenticated
         guard isAuthenticated else { return }
@@ -54,13 +82,11 @@ final class AuthViewModel: ObservableObject {
                 isAuthenticated = true
                 await loadAccount()
             } catch {
-                errorMessage = "Sign-in failed: \(error.localizedDescription)"
+                errorMessage = UserFacingError.message(for: error, context: .account)
             }
         }
     }
 
-    /// Ends the local and Keycloak SSO sessions, and clears the login web view's
-    /// cookies so the next sign-in does not silently reuse the old session.
     func logout() async {
         await client.logout()
         await LoginSessionCleaner.clearSession(for: client.environment.iamBaseURL)
@@ -68,41 +94,11 @@ final class AuthViewModel: ObservableObject {
         account = nil
         accountId = nil
         activeSubscriptionId = nil
-        rewardBalance = nil
-        favoriteStationNumbers = []
+        reward = nil
+        blockingAlerts = []
+        errorMessage = nil
     }
 
-    /// Updates the local set immediately, then reverts it if the server call fails.
-    func toggleFavorite(stationNumber: Int) async {
-        guard let accountId else { return }
-        let wasFavorite = favoriteStationNumbers.contains(stationNumber)
-        if wasFavorite {
-            favoriteStationNumbers.remove(stationNumber)
-        } else {
-            favoriteStationNumbers.insert(stationNumber)
-        }
-        do {
-            if wasFavorite {
-                try await client.stationBookmarks.remove(stationId: stationNumber, accountId: accountId)
-            } else {
-                try await client.stationBookmarks.add(stationId: stationNumber, accountId: accountId)
-            }
-        } catch {
-            if wasFavorite {
-                favoriteStationNumbers.insert(stationNumber)
-            } else {
-                favoriteStationNumbers.remove(stationNumber)
-            }
-        }
-    }
-
-    func isFavorite(stationNumber: Int) -> Bool {
-        favoriteStationNumbers.contains(stationNumber)
-    }
-
-    /// Finds a subscription that is not locked and has a period covering now. Derives
-    /// "current" from `validityStart`/`validityEnd` rather than `SubscriptionPeriod.type`,
-    /// since the server always returns `nil` for that field.
     func resolveActiveSubscriptionId() async throws -> UUID {
         if let activeSubscriptionId {
             return activeSubscriptionId
@@ -130,9 +126,31 @@ final class AuthViewModel: ObservableObject {
         return usable.id
     }
 
+    /// Flips the switch optimistically and rolls back to `previous` if the server rejects it.
+    func setRewardAutoSpend(_ isOn: Bool) async {
+        guard let accountId else { return }
+        let previous = rewardAutoSpend
+        rewardAutoSpend = isOn
+        do {
+            let updated = try await client.rewards.update(accountId: accountId, autoSpend: isOn)
+            reward = updated
+            rewardAutoSpend = updated.autoSpend
+        } catch {
+            rewardAutoSpend = previous
+            errorMessage = UserFacingError.message(for: error, context: .account)
+        }
+    }
+
+    func refreshReward() async {
+        guard let accountId else { return }
+        guard let refreshed = try? await client.rewards.reward(accountId: accountId) else { return }
+        reward = refreshed
+        rewardAutoSpend = refreshed.autoSpend
+    }
+
     private func loadAccount() async {
         guard let email = await client.auth.currentEmail else {
-            errorMessage = "Couldn't read identity from ID token"
+            errorMessage = String(localized: "Couldn't read your identity from the sign-in token. Sign in again.")
             return
         }
         isLoadingAccount = true
@@ -147,10 +165,13 @@ final class AuthViewModel: ObservableObject {
             }
             let loadedAccount = try await client.account.account(accountId: resolvedId)
             account = loadedAccount
-            favoriteStationNumbers = loadedAccount.stations
-            rewardBalance = try? await client.rewards.reward(accountId: resolvedId).balance
+            errorMessage = nil
+            await favorites.sync(remote: loadedAccount.stations, client: client, accountId: resolvedId)
+            await refreshReward()
+            blockingAlerts = (try? await client.account.alerts(accountId: resolvedId).filter(\.isBlocking)) ?? []
+            await onAccountLoaded?(resolvedId)
         } catch {
-            errorMessage = "Couldn't load account: \(error.localizedDescription)"
+            errorMessage = UserFacingError.message(for: error, context: .account)
         }
     }
 }

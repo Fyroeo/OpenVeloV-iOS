@@ -2,13 +2,10 @@ import CoreLocation
 import SwiftUI
 import VLSKit
 
-/// This view shows the "ask for 15 more minutes" screen. This is JCDecaux's "via" feature.
-/// The feature is valid only when the destination station has no free docks. For this
-/// reason, this view lists only stations with 0 free docks, nearest first.
 struct RequestExtraTimeView: View {
     @ObservedObject var authVM: AuthViewModel
     let stations: [MapStation]
-    let userLocation: CLLocationCoordinate2D?
+    let userLocation: UserLocation?
 
     @Environment(\.dismiss) private var dismiss
     @State private var submittingStationID: String?
@@ -18,12 +15,8 @@ struct RequestExtraTimeView: View {
 
     private var fullStations: [MapStation] {
         let full = stations.filter { $0.isReturning && $0.docksAvailable == 0 }
-        guard let userLocation else { return full }
-        let here = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
-        return full.sorted {
-            CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude).distance(from: here)
-                < CLLocation(latitude: $1.coordinate.latitude, longitude: $1.coordinate.longitude).distance(from: here)
-        }
+        guard let userLocation else { return full.sorted { $0.name < $1.name } }
+        return full.sorted { userLocation.distance(to: $0.coordinate) < userLocation.distance(to: $1.coordinate) }
     }
 
     var body: some View {
@@ -116,7 +109,7 @@ struct RequestExtraTimeView: View {
             }
         } catch {
             resultTitle = "Couldn't Request Extra Time"
-            resultMessage = error.localizedDescription
+            resultMessage = UserFacingError.message(for: error, context: .subscription)
             resultWasError = true
         }
     }

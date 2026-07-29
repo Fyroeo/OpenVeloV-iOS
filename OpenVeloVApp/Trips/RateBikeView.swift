@@ -1,17 +1,10 @@
 import SwiftUI
 import VLSKit
 
-/// This view shows a thumbs up or thumbs down prompt. It shows after a ride, or from the
-/// ride history. It calls `POST .../trips/{tripId}/rate`.
-///
-/// History: this view used to show a "what went wrong?" defect-reason picker before a
-/// thumbs-down rating, using `Rate.cdrCode` to match `DefectType.code`.
-/// `DefectTypeService.defectTypes` returns 403 (`role.not.allowed`) even for a
-/// signed-in account, so the picker could never load and was removed. A thumbs-down
-/// rating now submits directly, with no `cdrCode`, the same as thumbs-up.
 struct RateBikeView: View {
     let trip: Trip
     @ObservedObject var authVM: AuthViewModel
+    var didUploadRoute: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     @State private var isSubmitting = false
@@ -23,7 +16,7 @@ struct RateBikeView: View {
                 Spacer(minLength: 0)
 
                 Image(systemName: trip.bikeType == .electrical ? "bolt.fill" : "bicycle")
-                    .font(.system(size: 44))
+                    .font(.system(.largeTitle))
                     .foregroundStyle(.white)
                     .frame(width: 84, height: 84)
                     .background(trip.bikeType == .electrical ? Color.green : Color.red, in: Circle())
@@ -36,6 +29,12 @@ struct RateBikeView: View {
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
+                }
+
+                if didUploadRoute {
+                    Label("Route saved to this ride", systemImage: "map.fill")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
                 }
 
                 if let errorMessage {
@@ -74,9 +73,9 @@ struct RateBikeView: View {
 
     private var bikeLabel: String {
         if let number = trip.bikeNumber {
-            return "How was bike #\(number)?"
+            return String(localized: "How was bike #\(number.identifierText)?")
         }
-        return "How was your ride?"
+        return String(localized: "How was your ride?")
     }
 
     private func ratingButton(recommended: Bool, systemImage: String, tint: Color) -> some View {
@@ -84,7 +83,7 @@ struct RateBikeView: View {
             Task { await submit(recommended: recommended) }
         } label: {
             Image(systemName: systemImage)
-                .font(.system(size: 30))
+                .font(.title)
                 .foregroundStyle(.white)
                 .frame(width: 76, height: 76)
                 .background(tint, in: Circle())
@@ -93,7 +92,7 @@ struct RateBikeView: View {
 
     private func submit(recommended: Bool) async {
         guard let accountId = authVM.accountId, let tripId = trip.id, let bikeNumber = trip.bikeNumber else {
-            errorMessage = "This ride is missing details needed to rate it."
+            errorMessage = String(localized: "This ride is missing details needed to rate it.")
             return
         }
         isSubmitting = true
@@ -103,7 +102,7 @@ struct RateBikeView: View {
             _ = try await authVM.client.bikes.rate(accountId: accountId, tripId: tripId, rate: rate)
             dismiss()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = UserFacingError.message(for: error, context: .trips)
         }
     }
 }

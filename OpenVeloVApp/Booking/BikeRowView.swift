@@ -4,24 +4,22 @@ import VLSKit
 struct BikeRowView: View {
     let bike: Bike
     var isBooked: Bool = false
+    var isRecommended: Bool = false
 
-    // The server field `statusLabel` (for example, "Accroché") shows only if a bike is
-    // docked. It does not show if the bike is available to rent.
-    // An AVAILABLE bike and a RESERVED bike both get the label "Accroché" from the server.
-    // This code builds its own text from `status`. This keeps the displayed text and
-    // color consistent with each other.
+    // The server's own `statusLabel` labels both available and reserved bikes "Accroché", so the
+    // text is derived from `status` instead, which also keeps it consistent with `statusColor`.
     private var statusText: String {
         switch bike.status {
-        case .available: return "Available"
-        case .reserved: return "Reserved"
-        case .rented, .rentedMinuteDepose: return "Rented"
-        case .maintenance: return "Maintenance"
-        case .blocked: return "Blocked"
-        case .stolen: return "Stolen"
-        case .unreachable: return "Unreachable"
-        case .waitingForBinding, .tested, .validated: return "Being set up"
-        case .deleted, .poweredOff: return "Off"
-        case .unknown: return "Unknown"
+        case .available: return String(localized: "Available")
+        case .reserved: return String(localized: "Reserved")
+        case .rented, .rentedMinuteDepose: return String(localized: "Rented")
+        case .maintenance: return String(localized: "Maintenance")
+        case .blocked: return String(localized: "Blocked")
+        case .stolen: return String(localized: "Stolen")
+        case .unreachable: return String(localized: "Unreachable")
+        case .waitingForBinding, .tested, .validated: return String(localized: "Being set up")
+        case .deleted, .poweredOff: return String(localized: "Off")
+        case .unknown: return String(localized: "Unknown")
         }
     }
 
@@ -34,8 +32,8 @@ struct BikeRowView: View {
         }
     }
 
-    /// This color matches the legend on the capacity bar.
-    /// Mechanical bikes are red. Electric bikes are green.
+    /// Matches the capacity-bar legend on the station sheet, where mechanical bikes are the red
+    /// segment and electric ones the green.
     private var typeColor: Color {
         bike.type == .electrical ? .green : .red
     }
@@ -48,8 +46,16 @@ struct BikeRowView: View {
                 HStack(spacing: 4) {
                     Image(systemName: bike.type == .electrical ? "bolt.fill" : "bicycle")
                         .foregroundStyle(typeColor)
-                    Text("#\(bike.number)")
+                    Text("#\(bike.number.identifierText)")
                         .font(.subheadline.bold())
+                    if isRecommended && !isBooked {
+                        Text("BEST PICK")
+                            .font(.system(size: 9, weight: .heavy))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(Color.accentColor, in: Capsule())
+                    }
                 }
                 HStack(spacing: 4) {
                     if isBooked {
@@ -91,6 +97,21 @@ struct BikeRowView: View {
         .padding(.vertical, 10)
         .padding(.horizontal, 12)
         .background(isBooked ? Color.blue.opacity(0.12) : Color.clear)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityAddTraits(bike.status == .available || isBooked ? .isButton : [])
+    }
+
+    private var accessibilityLabel: String {
+        var parts: [String] = []
+        if let standNumber = bike.standNumber { parts.append(String(localized: "Stand \(standNumber.identifierText)")) }
+        parts.append(String(localized: "bike number \(bike.number.identifierText)"))
+        parts.append(bike.type == .electrical ? String(localized: "electric") : String(localized: "mechanical"))
+        parts.append(isBooked ? String(localized: "booked by you") : statusText.lowercased())
+        if let battery = bike.battery { parts.append(String(localized: "\(battery.percentage) percent battery")) }
+        if let value = bike.rating.value { parts.append(String(localized: "\(Int(value)) percent recommended")) }
+        if isRecommended && !isBooked { parts.append(String(localized: "best pick")) }
+        return parts.joined(separator: ", ")
     }
 
     private var standBadge: some View {

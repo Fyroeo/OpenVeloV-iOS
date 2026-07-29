@@ -1,0 +1,53 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OpenVeloV"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OpenVeloV"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "Privacy - Location When In Use Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OpenVeloV uses your location to center the map, show how far you are from nearby Vélo'v stations, and — if you turn those options on — record your ride's route and tell you when you reach the station holding your bike."
+          }
+        }
+      }
+    },
+    "OpenVeloV uses your location to center the map, show how far you are from nearby Vélo'v stations, and — if you turn those options on — record your ride's route and tell you when you reach the station holding your bike." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpenVeloV utilise votre position pour centrer la carte, indiquer votre distance aux stations Vélo'v proches et — si vous activez ces options — enregistrer le parcours de vos trajets et vous prévenir quand vous arrivez à la station qui garde votre vélo."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
