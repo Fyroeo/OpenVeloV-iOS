@@ -2,9 +2,9 @@ import ActivityKit
 import Foundation
 import VLSKit
 
-/// Starts, updates, and ends the "ride in progress" Live Activity.
-///
-/// This is best effort. Live Activities can be unavailable, for example when the user disables them in Settings or the device does not support them. ActivityKit reports this as a thrown error. The code ignores the error, because there is no useful action to show the user for this background convenience feature.
+/// Best effort throughout: `Activity.request` throws when the rider has Live Activities switched
+/// off or the device doesn't support them, and a convenience feature has nothing useful to say
+/// about that, so the failures are swallowed.
 @MainActor
 enum LiveActivityManager {
     private static var currentActivity: Activity<TripActivityAttributes>?
@@ -36,7 +36,7 @@ enum LiveActivityManager {
         TripActivityAttributes.ContentState(
             startDate: trip.startDateTime ?? Date(),
             bikeNumber: trip.bikeNumber ?? 0,
-            stationName: trip.startStationName ?? "Vélo'v station",
+            stationName: trip.startStationName ?? String(localized: "Vélo'v station"),
             isElectric: trip.bikeType == .electrical
         )
     }

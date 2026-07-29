@@ -1,14 +1,6 @@
 import SwiftUI
 import VLSKit
 
-/// This card shows at the bottom of the screen during a ride. It shows the elapsed time,
-/// the bike information, and 2 actions: find the nearest dock, or request 15 extra minutes.
-///
-/// This card does not show a live fare or distance. The API sends neither value during
-/// a ride, and the app does not track GPS position. The app does not guess these values.
-///
-/// There is no "end ride" call. A ride ends only when the rider docks the bike.
-/// This is why the main action is "Nearest dock", not "End ride".
 struct ActiveTripBanner: View {
     let trip: Trip
     let onNearestDock: () -> Void
@@ -34,14 +26,16 @@ struct ActiveTripBanner: View {
                             .lineLimit(1)
                     }
                     Text(trip.startDateTime ?? Date(), style: .timer)
-                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .font(.system(.largeTitle, design: .rounded).weight(.bold))
                         .monospacedDigit()
+                        .minimumScaleFactor(0.6)
+                        .lineLimit(1)
                 }
 
                 Spacer(minLength: 4)
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(trip.bikeType == .electrical ? "Electric" : "Mechanical")
+                    (trip.bikeType == .electrical ? Text("Electric") : Text("Mechanical"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     if let start = trip.startDateTime {
@@ -77,8 +71,8 @@ struct ActiveTripBanner: View {
 
     private var statusText: String {
         if let number = trip.bikeNumber {
-            return "Riding · Bike #\(number)"
+            return String(localized: "Riding · Bike #\(number.identifierText)")
         }
-        return "Riding"
+        return String(localized: "Riding")
     }
 }

@@ -1,0 +1,123 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "${applicationName} nearest bike" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} vélo le plus proche"
+          }
+        }
+      }
+    },
+    "${applicationName} nearest dock" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} place la plus proche"
+          }
+        }
+      }
+    },
+    "Find a dock with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Find a dock with ${applicationName}",
+              "Where can I park my Vélo'v with ${applicationName}",
+              "${applicationName} nearest dock"
+            ]
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Trouver une place avec ${applicationName}"
+          }
+        }
+      }
+    },
+    "Find bikes near me with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Find bikes near me with ${applicationName}",
+              "Is there a Vélo'v near me with ${applicationName}",
+              "${applicationName} nearest bike"
+            ]
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Trouver des vélos près de moi avec ${applicationName}"
+          }
+        }
+      }
+    },
+    "Is there a Vélo'v near me with ${applicationName}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Y a-t-il un Vélo'v près de moi avec ${applicationName}"
+          }
+        }
+      }
+    },
+    "Open ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Open ${applicationName}",
+              "Show the ${applicationName} map"
+            ]
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ouvrir ${applicationName}"
+          }
+        }
+      }
+    },
+    "Show the ${applicationName} map" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la carte ${applicationName}"
+          }
+        }
+      }
+    },
+    "Where can I park my Vélo'v with ${applicationName}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Où garer mon Vélo'v avec ${applicationName}"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

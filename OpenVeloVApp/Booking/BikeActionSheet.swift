@@ -1,8 +1,6 @@
 import SwiftUI
 import VLSKit
 
-/// This sheet confirms an unlock or a booking action for a bike.
-/// It shows one continuous surface: choice, then progress, then result.
 struct BikeActionSheet: View {
     let bike: Bike
     let isAlreadyBooked: Bool
@@ -55,18 +53,18 @@ struct BikeActionSheet: View {
     private var bikeHeader: some View {
         VStack(spacing: 10) {
             Image(systemName: bike.type == .electrical ? "bolt.fill" : "bicycle")
-                .font(.system(size: 32))
+                .font(.title)
                 .foregroundStyle(.white)
                 .frame(width: 68, height: 68)
                 .background(typeColor, in: Circle())
 
-            Text("Bike #\(bike.number)")
+            Text("Bike #\(bike.number.identifierText)")
                 .font(.title3.bold())
 
             HStack(spacing: 6) {
-                Text(bike.type == .electrical ? "Electric" : "Mechanical")
+                (bike.type == .electrical ? Text("Electric") : Text("Mechanical"))
                 if let standNumber = bike.standNumber {
-                    Text("· Stand \(standNumber)")
+                    Text("· Stand \(standNumber.identifierText)")
                 }
                 if let value = bike.rating.value {
                     Text("· \(Int(value))% recommended")
@@ -111,7 +109,9 @@ struct BikeActionSheet: View {
         VStack(spacing: 12) {
             ProgressView()
                 .controlSize(.large)
-            Text(isUnlocking ? "Unlocking bike #\(bike.number)…" : "Booking bike #\(bike.number)…")
+            (isUnlocking
+                ? Text("Unlocking bike #\(bike.number.identifierText)…")
+                : Text("Booking bike #\(bike.number.identifierText)…"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -122,7 +122,7 @@ struct BikeActionSheet: View {
     private func resultView(_ result: ActionResult) -> some View {
         VStack(spacing: 12) {
             Image(systemName: result.succeeded ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .font(.system(size: 40))
+                .font(.largeTitle)
                 .foregroundStyle(result.succeeded ? .green : .red)
             Text(result.title)
                 .font(.headline)
@@ -146,11 +146,9 @@ struct BikeActionSheet: View {
     }
 }
 
-/// This button shows one row-style choice in `BikeActionSheet`.
-/// `BikeActionSheet` uses it for the "Unlock Now" and "Book for Later" choices.
 struct ActionButton: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
     let systemImage: String
     let tint: Color
     let action: () -> Void

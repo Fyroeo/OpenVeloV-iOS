@@ -1,6 +1,7 @@
 name: OpenVeloV
 options:
   bundleIdPrefix: net.socialeo
+  developmentLanguage: en
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -23,14 +24,19 @@ targets:
         product: VLSKitUI
       - target: TripLiveActivityExtension
         embed: true
+    # Pulls in Config/Secrets.xcconfig when it exists; the build works without it.
+    configFiles:
+      Debug: Config/App.xcconfig
+      Release: Config/App.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov
         PRODUCT_NAME: OpenVeloV
         SWIFT_VERSION: "5.9"
-        MARKETING_VERSION: "0.3.0"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        MARKETING_VERSION: "0.4.0"
         CURRENT_PROJECT_VERSION: "1"
-        TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: OpenVeloVApp/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -44,17 +50,37 @@ targets:
     sources:
       - path: TripLiveActivityExtension
       - path: Shared
+    dependencies:
+      # The station widget reads GBFS directly, so it needs no account and no API key.
+      - package: VLSKit
+        product: VLSKit
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov.TripLiveActivityExtension
         PRODUCT_NAME: TripLiveActivityExtension
         SWIFT_VERSION: "5.9"
-        MARKETING_VERSION: "0.3.0"
+        MARKETING_VERSION: "0.4.0"
         CURRENT_PROJECT_VERSION: "1"
-        TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: TripLiveActivityExtension/Info.plist
         SKIP_INSTALL: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2MDRGC529Z
+  OpenVeloVTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OpenVeloVTests
+    dependencies:
+      - target: OpenVeloV
+      - package: VLSKit
+        product: VLSKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov.tests
+        SWIFT_VERSION: "5.9"
+        GENERATE_INFOPLIST_FILE: YES
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 2MDRGC529Z
 schemes:
@@ -62,9 +88,12 @@ schemes:
     build:
       targets:
         OpenVeloV: all
+        OpenVeloVTests: [test]
     run:
       config: Debug
     test:
       config: Debug
+      targets:
+        - OpenVeloVTests
     archive:
       config: Release

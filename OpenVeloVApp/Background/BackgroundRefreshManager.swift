@@ -3,25 +3,15 @@ import BackgroundTasks
 import Foundation
 import VLSKit
 
-/// Runs opportunistic background sync for the 2 Live Activities: the ride timer and the
-/// booking hold.
-///
-/// In the foreground, `TripViewModel` and `BookingViewModel` poll and update these
-/// directly. In the background, iOS suspends that polling within seconds, so nothing
-/// updates a Live Activity again until the app reopens.
-///
-/// `BGTaskScheduler` lets iOS wake the app to reconcile them instead. A background
-/// launch has no `TripViewModel`/`BookingViewModel` instance to read from, so this code
-/// reads `Activity<Attributes>.activities` directly, which persists at the OS level
+/// Lets iOS wake the app to reconcile Live Activities, which nothing else updates once the
+/// foreground pollers are suspended. A background launch has no `TripViewModel` or
+/// `BookingViewModel` to read from, so this works off `Activity.activities`, which the OS keeps
 /// across process relaunches.
-///
-/// iOS runs this task opportunistically, based on usage and battery level, with a delay
-/// from minutes to much longer. This is an improvement over waiting for the app to
-/// reopen, not a guarantee.
 enum BackgroundRefreshManager {
     static let taskIdentifier = "net.socialeo.openvelov.refresh"
 
-    /// Call once, early in the app life cycle, before the first scene connects.
+    /// Must run before the app finishes launching: BGTaskScheduler refuses handlers registered
+    /// any later.
     static func register() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: taskIdentifier, using: nil) { task in
             guard let refreshTask = task as? BGAppRefreshTask else { return }
@@ -29,12 +19,9 @@ enum BackgroundRefreshManager {
         }
     }
 
-    /// Call when the app moves to the background, in case a Live Activity is running.
-    ///
-    /// The delay before iOS runs this task is the main limit on detecting a docked bike
-    /// in the background. A fixed 15-minute delay could miss a short ride entirely, since
-    /// many Vélo'v rides finish within 15 minutes. This method requests 2 minutes instead
-    /// of 15 while a trip or booking Live Activity is active.
+    /// Call when the app moves to the background. Many Vélo'v rides finish inside 15 minutes, so a
+    /// running ride or hold asks for 2 minutes rather than risk missing the whole thing; iOS treats
+    /// either delay as a hint and may run the task much later.
     static func scheduleNextRefresh() {
         let hasActiveRideOrBooking = !Activity<TripActivityAttributes>.activities.isEmpty
             || !Activity<BookingActivityAttributes>.activities.isEmpty
@@ -59,7 +46,9 @@ enum BackgroundRefreshManager {
         let bookingActivities = Activity<BookingActivityAttributes>.activities
         guard !tripActivities.isEmpty || !bookingActivities.isEmpty else { return }
 
-        let client = VLSClient(environment: .lyon, tokenStore: KeychainTokenStore())
+        // A client of its own rather than the app's: the shared keychain carries the session, so
+        // there is nothing to sign in to here.
+        let client = VLSClient(environment: AppSecrets.environment, tokenStore: KeychainTokenStore())
         guard await client.isAuthenticated,
               let email = await client.auth.currentEmail,
               let accountId = try? await client.account.accountId(email: email) else {

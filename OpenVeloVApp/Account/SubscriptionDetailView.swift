@@ -1,9 +1,6 @@
 import SwiftUI
 import VLSKit
 
-/// This is a read-only "My Subscription" screen under Account. It shows the type, the
-/// validity window, and whether the subscription is active now. It derives "active" from
-/// the period date range, because the server's `PeriodType` field always comes back `nil`.
 struct SubscriptionDetailView: View {
     @ObservedObject var authVM: AuthViewModel
     @Environment(\.dismiss) private var dismiss
@@ -63,9 +60,8 @@ struct SubscriptionDetailView: View {
             statusBadge(for: subscription)
         }
 
-        // No period covers today when the subscription has expired or has not started
-        // yet. This falls back to the most recent period by end date, so the view still
-        // has a window to display.
+        // An expired or not-yet-started subscription has no period covering today, so fall back to
+        // the one that ends latest.
         if let current = currentPeriod(subscription) ?? subscription.periods.sorted(by: { $0.validityEnd > $1.validityEnd }).first {
             LabeledContent("Valid from", value: current.validityStart.formatted(date: .abbreviated, time: .omitted))
             LabeledContent("Valid until", value: current.validityEnd.formatted(date: .abbreviated, time: .omitted))
@@ -84,7 +80,7 @@ struct SubscriptionDetailView: View {
     @ViewBuilder
     private func statusBadge(for subscription: Subscription) -> some View {
         let isActive = currentPeriod(subscription) != nil && !subscription.isLocked
-        Text(isActive ? "Active" : "Inactive")
+        (isActive ? Text("Active") : Text("Inactive"))
             .font(.caption.weight(.semibold))
             .foregroundStyle(isActive ? .green : .secondary)
     }
@@ -96,18 +92,18 @@ struct SubscriptionDetailView: View {
 
     private func typeLabel(_ type: SubscriptionType?) -> String {
         switch type {
-        case .longTerm: return "Long-term subscription"
-        case .shortTerm: return "Short-term subscription"
-        case .ub: return "Pay-as-you-go"
-        case .parking: return "Parking subscription"
-        case .battery: return "Battery subscription"
-        case nil: return "Subscription"
+        case .longTerm: return String(localized: "Long-term subscription")
+        case .shortTerm: return String(localized: "Short-term subscription")
+        case .ub: return String(localized: "Pay-as-you-go")
+        case .parking: return String(localized: "Parking subscription")
+        case .battery: return String(localized: "Battery subscription")
+        case nil: return String(localized: "Subscription")
         }
     }
 
     private func load() async {
         guard let accountId = authVM.accountId else {
-            errorMessage = "Sign in to see your subscription."
+            errorMessage = String(localized: "Sign in to see your subscription.")
             return
         }
         isLoading = true
@@ -116,7 +112,7 @@ struct SubscriptionDetailView: View {
         do {
             subscriptions = try await authVM.client.subscriptions.subscriptions(accountId: accountId)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = UserFacingError.message(for: error, context: .subscription)
         }
     }
 }

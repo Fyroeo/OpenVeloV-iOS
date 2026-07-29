@@ -3,7 +3,6 @@ import SwiftUI
 import UIKit
 import VLSKit
 
-/// The detail sheet for a station. It opens when the user taps a station marker on the map.
 struct StationDetailView: View {
     let station: MapStation
     let bikeDetailClient: BikeDetailClient
@@ -11,26 +10,51 @@ struct StationDetailView: View {
     @ObservedObject var tripVM: TripViewModel
     @ObservedObject var bookingVM: BookingViewModel
     @ObservedObject var stationsVM: StationsViewModel
+    @ObservedObject var favorites: FavoritesStore
+    var userLocation: UserLocation?
+    /// Dismisses this sheet and starts the sign-in flow.
+    var onRequestSignIn: () -> Void = {}
 
     @Environment(\.dismiss) private var dismiss
 
-    @State private var bikes: [Bike] = []
-    @State private var isLoadingBikes = false
-    @State private var bikesErrorMessage: String?
+    // Not `private`: the bike list and actions live in StationDetailView+Actions.swift, an
+    // extension in another file, which can only reach internal members.
+    @State var bikes: [Bike] = []
+    @State var isLoadingBikes = false
+    @State var bikesErrorMessage: String?
 
-    @State private var bikeToConfirm: Bike?
-    @State private var isUnlocking = false
-    @State private var isBooking = false
-    @State private var actionResult: BikeActionSheet.ActionResult?
-    @State private var showSignInRequired = false
+    @State var bikeToConfirm: Bike?
+    @State var isUnlocking = false
+    @State var isBooking = false
+    @State var actionResult: BikeActionSheet.ActionResult?
+    @State var showSignInRequired = false
+    @State var bikeSort: BikeSort = .stand
 
-    /// `station` is a snapshot from the moment the user tapped the marker.
-    /// `stationsVM` refreshes on its own about every 10 seconds.
-    /// This property re-reads the current bike and dock counts on each refresh.
-    /// It does not freeze on the old snapshot while the sheet stays open.
-    private var liveStation: MapStation {
-        stationsVM.stations.first { $0.id == station.id } ?? station
+    enum BikeSort: String, CaseIterable, Identifiable {
+        case stand
+        case battery
+        case rating
+
+        var id: Self { self }
+
+        var label: String {
+            switch self {
+            case .stand: return String(localized: "Stand")
+            case .battery: return String(localized: "Battery")
+            case .rating: return String(localized: "Rating")
+            }
+        }
     }
+
+    /// `station` is a snapshot from the moment the marker was tapped, so counts are re-read from
+    /// `stationsVM` on every refresh rather than freezing while the sheet stays open.
+    private var liveStation: MapStation {
+        stationsVM.station(forNumber: station.number) ?? station
+    }
+
+    private var hasBonus: Bool { stationsVM.hasBonus(stationNumber: station.number) }
+
+    private var distance: Double? { liveStation.distance(from: userLocation) }
 
     var body: some View {
         ScrollView {
@@ -46,8 +70,6 @@ struct StationDetailView: View {
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
         .task(id: station.id) {
-            // This loop keeps the per-bike list current while the sheet stays open.
-            // Without it, the list would freeze at the state from when the sheet opened.
             while !Task.isCancelled {
                 await loadBikes()
                 try? await Task.sleep(nanoseconds: 15_000_000_000)
@@ -66,9 +88,10 @@ struct StationDetailView: View {
             )
         }
         .alert("Sign In Required", isPresented: $showSignInRequired) {
-            Button("OK", role: .cancel) {}
+            Button("Sign In") { onRequestSignIn() }
+            Button("Not Now", role: .cancel) {}
         } message: {
-            Text("Sign in to unlock or book a bike.")
+            Text("Sign in with your Vélo'v account to unlock or book a bike.")
         }
     }
 
@@ -84,30 +107,48 @@ struct StationDetailView: View {
                     Circle()
                         .fill(liveStation.isRenting ? Color.green : Color.red)
                         .frame(width: 8, height: 8)
-                    Text(liveStation.isRenting ? "Open" : "Closed")
+                    (liveStation.isRenting ? Text("Open") : Text("Closed"))
                         .foregroundStyle(liveStation.isRenting ? .green : .red)
-                    if let capacity = liveStation.capacity {
+                    if let distance, MapStation.walkingTimeText(for: distance) != nil {
+                        Text("· \(MapStation.distanceText(distance)) · ~\(MapStation.walkingMinutes(for: distance)) min walk")
+                            .foregroundStyle(.secondary)
+                    } else if let distance {
+                        Text("· \(MapStation.distanceText(distance))")
+                            .foregroundStyle(.secondary)
+                    } else if let capacity = liveStation.capacity {
                         Text("· \(capacity) stands")
                             .foregroundStyle(.secondary)
                     }
                 }
                 .font(.subheadline.weight(.medium))
+
+                if hasBonus {
+                    Label("Bonus station — earn reward points here", systemImage: "plus.circle.fill")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.purple)
+                }
             }
 
             Spacer()
 
-            if authVM.isAuthenticated, let stationNumber = Int(station.id) {
+            if let stationNumber = station.number {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    Task { await authVM.toggleFavorite(stationNumber: stationNumber) }
+                    Task {
+                        await favorites.toggle(
+                            stationNumber,
+                            client: authVM.isAuthenticated ? authVM.client : nil,
+                            accountId: authVM.accountId
+                        )
+                    }
                 } label: {
-                    Image(systemName: authVM.isFavorite(stationNumber: stationNumber) ? "star.fill" : "star")
+                    Image(systemName: favorites.contains(stationNumber) ? "star.fill" : "star")
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(authVM.isFavorite(stationNumber: stationNumber) ? .yellow : .secondary)
+                        .foregroundStyle(favorites.contains(stationNumber) ? .yellow : .secondary)
                         .padding(8)
                         .background(Color(.tertiarySystemFill), in: Circle())
                 }
-                .accessibilityLabel(authVM.isFavorite(stationNumber: stationNumber) ? "Remove from favorites" : "Add to favorites")
+                .accessibilityLabel(favorites.contains(stationNumber) ? "Remove from favorites" : "Add to favorites")
             }
 
             Button {
@@ -119,6 +160,7 @@ struct StationDetailView: View {
                     .padding(8)
                     .background(Color(.tertiarySystemFill), in: Circle())
             }
+            .accessibilityLabel("Close")
         }
     }
 
@@ -177,6 +219,7 @@ struct StationDetailView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             }
+            .accessibilityElement(children: .combine)
         }
     }
 
@@ -187,10 +230,12 @@ struct StationDetailView: View {
                 Text("BIKES AT THIS STATION")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
+                Spacer()
                 if isUnlocking || isBooking {
-                    Spacer()
                     ProgressView().controlSize(.small)
-                    Text(isUnlocking ? "Unlocking…" : "Booking…").font(.caption).foregroundStyle(.secondary)
+                    (isUnlocking ? Text("Unlocking…") : Text("Booking…")).font(.caption).foregroundStyle(.secondary)
+                } else if bikes.count > 1 {
+                    sortMenu
                 }
             }
 
@@ -198,6 +243,13 @@ struct StationDetailView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding()
+            } else if !ContentView.isBikeDetailConfigured {
+                Label(
+                    "Per-bike detail isn't available in this build — it needs the public site's anonymous web-client credential, which this open-source repository doesn't ship.",
+                    systemImage: "key.slash"
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
             } else if let bikesErrorMessage {
                 Label(bikesErrorMessage, systemImage: "wifi.exclamationmark")
                     .font(.caption)
@@ -208,187 +260,38 @@ struct StationDetailView: View {
                     .foregroundStyle(.secondary)
             } else {
                 VStack(spacing: 0) {
-                    ForEach(bikes) { bike in
-                        BikeRowView(bike: bike, isBooked: bike.id == bookingVM.activeBooking?.bikeId)
-                            .contentShape(Rectangle())
-                            .onTapGesture { handleTap(on: bike) }
-                        if bike.id != bikes.last?.id {
+                    ForEach(sortedBikes) { bike in
+                        UnlockableBikeRow(
+                            bike: bike,
+                            isBooked: bike.id == bookingVM.activeBooking?.bikeId,
+                            isRecommended: bike.id == recommendedBikeID,
+                            isUnlockable: canUnlock(bike),
+                            onTap: { handleTap(on: bike) },
+                            onUnlock: { directUnlock(bike) }
+                        )
+                        if bike.id != sortedBikes.last?.id {
                             Divider().padding(.leading, 60)
                         }
                     }
                 }
                 .disabled(isUnlocking || isBooking)
                 .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 16))
+                .clipShape(RoundedRectangle(cornerRadius: 16))
             }
         }
     }
 
-    // MARK: - Actions
-
-    private func loadBikes() async {
-        guard let stationNumber = Int(station.id) else {
-            bikesErrorMessage = "Unrecognized station id"
-            return
-        }
-        // Show the full-screen spinner only for the first load.
-        // Background refreshes update the list silently. They do not flash the spinner.
-        let isInitialLoad = bikes.isEmpty
-        if isInitialLoad { isLoadingBikes = true }
-        bikesErrorMessage = nil
-        defer { if isInitialLoad { isLoadingBikes = false } }
-        do {
-            let fetched = try await bikeDetailClient.bikes(atStationNumber: stationNumber)
-            let bookedId = bookingVM.activeBooking?.bikeId
-            bikes = fetched.sorted { lhs, rhs in
-                if let bookedId {
-                    if lhs.id == bookedId && rhs.id != bookedId { return true }
-                    if rhs.id == bookedId && lhs.id != bookedId { return false }
-                }
-                return (lhs.standNumber ?? .max) < (rhs.standNumber ?? .max)
-            }
-        } catch {
-            bikesErrorMessage = error.localizedDescription
-        }
-    }
-
-    private func handleTap(on bike: Bike) {
-        // A bike that the user has booked shows status `.reserved`, not `.available`.
-        // The row stays tappable so the user can unlock the booked bike.
-        let isMyBooking = bike.id == bookingVM.activeBooking?.bikeId
-        guard bike.status == .available || isMyBooking else { return }
-        guard authVM.isAuthenticated else {
-            showSignInRequired = true
-            return
-        }
-        actionResult = nil
-        bikeToConfirm = bike
-    }
-
-    private func unlock(_ bike: Bike) async {
-        isUnlocking = true
-        defer { isUnlocking = false }
-        do {
-            guard let accountId = authVM.accountId else { throw UnlockError.notAuthenticated }
-            let subscriptionId = try await authVM.resolveActiveSubscriptionId()
-            let request = ReleaseBikeRequest(
-                stationNumber: bike.stationNumber,
-                standNumber: bike.standNumber,
-                bikeNumber: bike.number
-            )
-            let response = try await authVM.client.trips.releaseBike(accountId: accountId, subscriptionId: subscriptionId, request: request)
-            if response.transactionState == .ok {
-                // Unlocking only opens a physical window of about 60 seconds to take the bike out.
-                // This is not the same event as the ride start.
-                // The message below describes the unlock, not a ride start.
-                actionResult = BikeActionSheet.ActionResult(
-                    succeeded: true,
-                    title: "Bike Unlocked",
-                    message: "You have 60 seconds to take bike #\(bike.number) out of the stand."
-                )
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
-                await loadBikes()
-                tripVM.watchForRideStart()
-            } else {
-                actionResult = BikeActionSheet.ActionResult(succeeded: false, title: "Unlock Failed", message: "Status: \(response.transactionState.rawValue)")
-                UINotificationFeedbackGenerator().notificationOccurred(.error)
-            }
-        } catch {
-            actionResult = BikeActionSheet.ActionResult(succeeded: false, title: "Unlock Failed", message: error.localizedDescription)
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        }
-    }
-
-    private func book(_ bike: Bike) async {
-        isBooking = true
-        defer { isBooking = false }
-        do {
-            guard let accountId = authVM.accountId else { throw UnlockError.notAuthenticated }
-            guard let stationNumber = bike.stationNumber, let standNumber = bike.standNumber else {
-                throw UnlockError.noActiveSubscription(debugInfo: "Bike is missing station/stand number")
-            }
-            let subscriptionId = try await authVM.resolveActiveSubscriptionId()
-            let station = try await authVM.client.stations.station(number: stationNumber)
-            let request = CreateBooking(
-                stationId: station.id,
-                stationNumber: stationNumber,
-                standNumber: Int16(clamping: standNumber),
-                subscriptionId: subscriptionId,
-                bikeId: bike.id
-            )
-            _ = try await authVM.client.bookings.createBooking(accountId: accountId, booking: request)
-            actionResult = BikeActionSheet.ActionResult(succeeded: true, title: "Bike Booked", message: "Bike #\(bike.number) is held for you — walk over and unlock it before the booking expires.")
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-            await bookingVM.refreshActiveBooking()
-        } catch {
-            actionResult = BikeActionSheet.ActionResult(succeeded: false, title: "Booking Failed", message: error.localizedDescription)
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        }
-    }
-}
-
-// MARK: - Supporting views
-
-private struct StatTile: View {
-    let systemImage: String
-    let tint: Color
-    let value: Int
-    let label: String
-
-    var body: some View {
-        VStack(spacing: 6) {
-            Image(systemName: systemImage)
-                .foregroundStyle(tint)
-            Text("\(value)")
-                .font(.title3.bold())
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-private struct LegendItem: View {
-    let color: Color
-    let label: String
-
-    var body: some View {
-        HStack(spacing: 4) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(color)
-                .frame(width: 8, height: 8)
-            Text(label)
-        }
-    }
-}
-
-/// A horizontal bar with segments for a station's stands.
-/// The segments show mechanical bikes, electric bikes, and free docks.
-/// If the counts do not add up to capacity, an extra segment shows the remainder.
-private struct CapacityBar: View {
-    let capacity: Int
-    let mechanical: Int
-    let electrical: Int
-    let free: Int
-
-    var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                segment(.red, count: mechanical, totalWidth: geometry.size.width)
-                segment(.green, count: electrical, totalWidth: geometry.size.width)
-                segment(Color(.systemGray3), count: free, totalWidth: geometry.size.width)
-                let accounted = mechanical + electrical + free
-                if capacity > accounted {
-                    segment(Color(.systemGray5), count: capacity - accounted, totalWidth: geometry.size.width)
+    private var sortMenu: some View {
+        Menu {
+            Picker("Sort by", selection: $bikeSort) {
+                ForEach(BikeSort.allCases) { option in
+                    Text(option.label).tag(option)
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 4))
+        } label: {
+            Label(bikeSort.label, systemImage: "arrow.up.arrow.down")
+                .font(.caption.weight(.semibold))
         }
-        .frame(height: 8)
-    }
-
-    private func segment(_ color: Color, count: Int, totalWidth: CGFloat) -> some View {
-        let fraction = capacity > 0 ? CGFloat(count) / CGFloat(capacity) : 0
-        return color.frame(width: totalWidth * fraction)
+        .accessibilityLabel("Sort bikes by \(bikeSort.label)")
     }
 }

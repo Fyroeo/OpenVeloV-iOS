@@ -1,0 +1,4295 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " " : {
+      "shouldTranslate" : false
+    },
+    " on bike #%@" : {
+      "comment" : "Appended to a notification body, e.g. 'your included 30 minutes on bike #25391'",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " sur le vélo n° %@"
+          }
+        }
+      }
+    },
+    "·" : {
+      "shouldTranslate" : false
+    },
+    "· %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@"
+          }
+        }
+      }
+    },
+    "· %@ · ~%lld min walk" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@ · ~%lld min à pied"
+          }
+        }
+      }
+    },
+    "· %lld stands" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %lld bornes"
+          }
+        }
+      }
+    },
+    "· %lld%% recommended" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· recommandé à %lld %%"
+          }
+        }
+      }
+    },
+    "· Stand %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· Borne %@"
+          }
+        }
+      }
+    },
+    "#%@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n° %@"
+          }
+        }
+      }
+    },
+    "%@ away" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à %@"
+          }
+        }
+      }
+    },
+    "%@ away, about %lld minutes walk" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à %@, environ %lld minutes à pied"
+          }
+        }
+      }
+    },
+    "%@ has %@, about %@ away." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a %@, à environ %@."
+          }
+        }
+      }
+    },
+    "%d" : {
+      "shouldTranslate" : false
+    },
+    "%lld" : {
+      "shouldTranslate" : false
+    },
+    "%lld electric" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld électriques"
+          }
+        }
+      }
+    },
+    "%lld mechanical" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld mécaniques"
+          }
+        }
+      }
+    },
+    "%lld mechanical, %lld electric, %lld free docks" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld mécaniques, %lld électriques, %lld places libres"
+          }
+        }
+      }
+    },
+    "%lld min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "%lld min before" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min avant"
+          }
+        }
+      }
+    },
+    "%lld percent battery" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pour cent de batterie"
+          }
+        }
+      }
+    },
+    "%lld percent recommended" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "recommandé à %lld pour cent"
+          }
+        }
+      }
+    },
+    "%lld pts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pts"
+          }
+        }
+      }
+    },
+    "%lld results" : {
+      "comment" : "Search results count header",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld résultats"
+          }
+        }
+      }
+    },
+    "%lld stands" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bornes"
+          }
+        }
+      }
+    },
+    "%lld stations, %lld %@ total. Double tap to zoom in." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stations, %lld %@ au total. Touchez deux fois pour zoomer."
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+      "shouldTranslate" : false
+    },
+    "%lld%% battery" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld %% de batterie"
+          }
+        }
+      }
+    },
+    "^[%lld bike](inflect: true)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld vélo](inflect: true)"
+          }
+        }
+      }
+    },
+    "^[%lld free dock](inflect: true)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld place libre](inflect: true)"
+          }
+        }
+      }
+    },
+    "+%lld" : {
+      "shouldTranslate" : false
+    },
+    "+15 min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+15 min"
+          }
+        }
+      }
+    },
+    "~%lld min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~%lld min"
+          }
+        }
+      }
+    },
+    "≈" : {
+
+    },
+    "1h" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 h"
+          }
+        }
+      }
+    },
+    "2m" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 min"
+          }
+        }
+      }
+    },
+    "17 min · Bike #25391 docked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "17 min · Vélo n° 25391 attaché"
+          }
+        }
+      }
+    },
+    "30 days" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 jours"
+          }
+        }
+      }
+    },
+    "About" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos"
+          }
+        }
+      }
+    },
+    "Account" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte"
+          }
+        }
+      }
+    },
+    "Active" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actif"
+          }
+        }
+      }
+    },
+    "Add to favorites" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter aux favoris"
+          }
+        }
+      }
+    },
+    "Adding it up…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calcul en cours…"
+          }
+        }
+      }
+    },
+    "Adjustment" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Régularisation"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout"
+          }
+        }
+      }
+    },
+    "All bikes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les vélos"
+          }
+        }
+      }
+    },
+    "All stations" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les stations"
+          }
+        }
+      }
+    },
+    "All time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis le début"
+          }
+        }
+      }
+    },
+    "Allow location access" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser la localisation"
+          }
+        }
+      }
+    },
+    "Allow location access so we can show nearby stations, real-time availability, and walking directions to your bike." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisez la localisation pour voir les stations proches, leur disponibilité en temps réel et l'itinéraire à pied jusqu'à votre vélo."
+          }
+        }
+      }
+    },
+    "Allowed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisé"
+          }
+        }
+      }
+    },
+    "An independent, unofficial client for Lyon's Vélo'v bike-share — not affiliated with JCDecaux or Grand Lyon." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un client indépendant et non officiel du Vélo'v lyonnais — sans lien avec JCDecaux ni la Métropole de Lyon."
+          }
+        }
+      }
+    },
+    "Ask for 15 More Minutes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demander 15 minutes de plus"
+          }
+        }
+      }
+    },
+    "Auto-renewal" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renouvellement automatique"
+          }
+        }
+      }
+    },
+    "Available" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible"
+          }
+        }
+      }
+    },
+    "Average ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet moyen"
+          }
+        }
+      }
+    },
+    "Awaiting check" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente de contrôle"
+          }
+        }
+      }
+    },
+    "Away" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance"
+          }
+        }
+      }
+    },
+    "Back" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        }
+      }
+    },
+    "Balance" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solde"
+          }
+        }
+      }
+    },
+    "Battery" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie"
+          }
+        }
+      }
+    },
+    "Battery subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnement batterie"
+          }
+        }
+      }
+    },
+    "Being set up" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cours d'installation"
+          }
+        }
+      }
+    },
+    "best pick" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "meilleur choix"
+          }
+        }
+      }
+    },
+    "BEST PICK" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MEILLEUR CHOIX"
+          }
+        }
+      }
+    },
+    "Bike #%@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo n° %@"
+          }
+        }
+      }
+    },
+    "Bike #%@ is docked. %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le vélo n° %@ est attaché. %@"
+          }
+        }
+      }
+    },
+    "Bike #%@ is held for you — walk over and unlock it before the booking expires." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le vélo n° %@ vous est réservé — rejoignez-le et déverrouillez-le avant la fin de la réservation."
+          }
+        }
+      }
+    },
+    "Bike #%@ is waiting. Open OpenVeloV to unlock it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le vélo n° %@ vous attend. Ouvrez OpenVeloV pour le déverrouiller."
+          }
+        }
+      }
+    },
+    "Bike Booked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo réservé"
+          }
+        }
+      }
+    },
+    "Bike held for you" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo réservé pour vous"
+          }
+        }
+      }
+    },
+    "bike number %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vélo numéro %@"
+          }
+        }
+      }
+    },
+    "Bike number, e.g. 25391" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro de vélo, par ex. 25391"
+          }
+        }
+      }
+    },
+    "Bike numbers are digits only." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les numéros de vélo ne contiennent que des chiffres."
+          }
+        }
+      }
+    },
+    "Bike reserved" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo réservé"
+          }
+        }
+      }
+    },
+    "Bike type" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type de vélo"
+          }
+        }
+      }
+    },
+    "Bike Unlocked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo déverrouillé"
+          }
+        }
+      }
+    },
+    "bikes" : {
+      "comment" : "Plural noun used mid-sentence, e.g. '22 bikes'",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vélos"
+          }
+        }
+      }
+    },
+    "Bikes" : {
+      "comment" : "Segmented control: show bike counts on the map",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélos"
+          }
+        }
+      }
+    },
+    "BIKES AT THIS STATION" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VÉLOS À CETTE STATION"
+          }
+        }
+      }
+    },
+    "Bill" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facture"
+          }
+        }
+      }
+    },
+    "Billing" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facturation"
+          }
+        }
+      }
+    },
+    "Blocked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloqué"
+          }
+        }
+      }
+    },
+    "bonus station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "station bonus"
+          }
+        }
+      }
+    },
+    "Bonus station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station bonus"
+          }
+        }
+      }
+    },
+    "Bonus station — earn reward points here" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station bonus — gagnez des points ici"
+          }
+        }
+      }
+    },
+    "Book a bike in advance" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réserver un vélo à l'avance"
+          }
+        }
+      }
+    },
+    "Book for Later" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réserver pour plus tard"
+          }
+        }
+      }
+    },
+    "Booked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservé"
+          }
+        }
+      }
+    },
+    "booked by you" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "réservé par vous"
+          }
+        }
+      }
+    },
+    "Booking bike #%@…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservation du vélo n° %@…"
+          }
+        }
+      }
+    },
+    "Booking Expired" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservation expirée"
+          }
+        }
+      }
+    },
+    "Booking Failed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la réservation"
+          }
+        }
+      }
+    },
+    "Booking hold reminders" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappels de réservation"
+          }
+        }
+      }
+    },
+    "Booking Holds" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservations"
+          }
+        }
+      }
+    },
+    "Booking…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservation…"
+          }
+        }
+      }
+    },
+    "Calories burned" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calories brûlées"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Cancelled" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulé"
+          }
+        }
+      }
+    },
+    "CAPACITY" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CAPACITÉ"
+          }
+        }
+      }
+    },
+    "Cash-equivalent reward" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Récompense en espèces"
+          }
+        }
+      }
+    },
+    "Center on my location" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centrer sur ma position"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        }
+      }
+    },
+    "closed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fermée"
+          }
+        }
+      }
+    },
+    "Closed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermée"
+          }
+        }
+      }
+    },
+    "CO₂ avoided" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CO₂ évité"
+          }
+        }
+      }
+    },
+    "Code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code"
+          }
+        }
+      }
+    },
+    "Compared to driving" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Par rapport à la voiture"
+          }
+        }
+      }
+    },
+    "Convert your points?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convertir vos points ?"
+          }
+        }
+      }
+    },
+    "Converts your balance into a promotional code you can use against a Vélo'v purchase. Vélo'v decides how many points it takes." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convertit votre solde en code promotionnel utilisable pour un achat Vélo'v. C'est Vélo'v qui fixe le nombre de points nécessaires."
+          }
+        }
+      }
+    },
+    "Couldn't Find That Bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo introuvable"
+          }
+        }
+      }
+    },
+    "Couldn't hold this bike. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de réserver ce vélo. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Couldn't Load Billing" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facturation indisponible"
+          }
+        }
+      }
+    },
+    "Couldn't Load Rides" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajets indisponibles"
+          }
+        }
+      }
+    },
+    "Couldn't load stations. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les stations. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Couldn't Load Subscriptions" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnements indisponibles"
+          }
+        }
+      }
+    },
+    "Couldn't load the bikes at this station." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les vélos de cette station."
+          }
+        }
+      }
+    },
+    "Couldn't load your account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger votre compte."
+          }
+        }
+      }
+    },
+    "Couldn't load your billing details." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger vos informations de facturation."
+          }
+        }
+      }
+    },
+    "Couldn't Load Your Impact" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impact indisponible"
+          }
+        }
+      }
+    },
+    "Couldn't load your rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger vos trajets."
+          }
+        }
+      }
+    },
+    "Couldn't load your subscription." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger votre abonnement."
+          }
+        }
+      }
+    },
+    "Couldn't reach Vélo'v. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de joindre Vélo'v. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Couldn't reach Vélo'v's news feed." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de joindre le fil d'actualités Vélo'v."
+          }
+        }
+      }
+    },
+    "Couldn't read your identity from the sign-in token. Sign in again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de lire votre identité depuis le jeton de connexion. Reconnectez-vous."
+          }
+        }
+      }
+    },
+    "Couldn't unlock this bike. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de déverrouiller ce vélo. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Counts last updated %lld min ago" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiffres mis à jour il y a %lld min"
+          }
+        }
+      }
+    },
+    "Create Promo Code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer le code promo"
+          }
+        }
+      }
+    },
+    "Credit" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crédit"
+          }
+        }
+      }
+    },
+    "Deposit" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caution"
+          }
+        }
+      }
+    },
+    "Directions" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Itinéraire"
+          }
+        }
+      }
+    },
+    "Discount" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remise"
+          }
+        }
+      }
+    },
+    "Distance (estimated)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance (estimée)"
+          }
+        }
+      }
+    },
+    "Distance ridden" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance parcourue"
+          }
+        }
+      }
+    },
+    "Docking and end-of-ride alerts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes d'attache et de fin de trajet"
+          }
+        }
+      }
+    },
+    "docks" : {
+      "comment" : "Plural noun used mid-sentence, e.g. '22 docks'",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "places"
+          }
+        }
+      }
+    },
+    "Docks" : {
+      "comment" : "Segmented control: show free dock counts",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
+    "Due now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À régler"
+          }
+        }
+      }
+    },
+    "Duration" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée"
+          }
+        }
+      }
+    },
+    "E-bikes" : {
+      "comment" : "Segmented control: show electric bike counts",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Élec."
+          }
+        }
+      }
+    },
+    "electric" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "électrique"
+          }
+        }
+      }
+    },
+    "Electric" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Électrique"
+          }
+        }
+      }
+    },
+    "Electric %lld" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Électriques %lld"
+          }
+        }
+      }
+    },
+    "Electric bikes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélos électriques"
+          }
+        }
+      }
+    },
+    "Email" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
+        }
+      }
+    },
+    "End" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrivée"
+          }
+        }
+      }
+    },
+    "Ended" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        }
+      }
+    },
+    "Enjoy the rest of your day!" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonne journée !"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur"
+          }
+        }
+      }
+    },
+    "favorite" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "favori"
+          }
+        }
+      }
+    },
+    "Favorites" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoris"
+          }
+        }
+      }
+    },
+    "Few" : {
+      "comment" : "Map legend: only a few bikes or docks",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peu"
+          }
+        }
+      }
+    },
+    "Find a Bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouver un vélo"
+          }
+        }
+      }
+    },
+    "Find a dock to avoid extra fees" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvez une borne pour éviter des frais"
+          }
+        }
+      }
+    },
+    "Find a Station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouver une station"
+          }
+        }
+      }
+    },
+    "Find a Vélo'v dock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouver une place Vélo'v"
+          }
+        }
+      }
+    },
+    "Find bikes\naround you" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvez des vélos\nautour de vous"
+          }
+        }
+      }
+    },
+    "Find bikes near me" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouver des vélos près de moi"
+          }
+        }
+      }
+    },
+    "Finished" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        }
+      }
+    },
+    "Flagged as litigious" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signalé comme litigieux"
+          }
+        }
+      }
+    },
+    "Free" : {
+      "comment" : "A ride that cost nothing",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratuit"
+          }
+        }
+      }
+    },
+    "Free %lld" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libres %lld"
+          }
+        }
+      }
+    },
+    "Free docks" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places libres"
+          }
+        }
+      }
+    },
+    "From" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De"
+          }
+        }
+      }
+    },
+    "From %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir du %@"
+          }
+        }
+      }
+    },
+    "Full · 0 docks free" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pleine · 0 place libre"
+          }
+        }
+      }
+    },
+    "Get directions to your bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtenir l'itinéraire jusqu'à votre vélo"
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer"
+          }
+        }
+      }
+    },
+    "Held for you · Stand 5, Ainay" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservé pour vous · Borne 5, Ainay"
+          }
+        }
+      }
+    },
+    "Holds this bike for you, no charge yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous réserve ce vélo, sans frais pour l'instant"
+          }
+        }
+      }
+    },
+    "How to earn" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment en gagner"
+          }
+        }
+      }
+    },
+    "How was bike #%@?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment était le vélo n° %@ ?"
+          }
+        }
+      }
+    },
+    "How was your ride?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment s'est passé votre trajet ?"
+          }
+        }
+      }
+    },
+    "I couldn't find a station with a bike near you." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je n'ai trouvé aucune station avec un vélo près de vous."
+          }
+        }
+      }
+    },
+    "I couldn't find a station with a free dock near you." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je n'ai trouvé aucune station avec une place libre près de vous."
+          }
+        }
+      }
+    },
+    "I need location access to find the nearest station. You can turn it on in Settings." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "J'ai besoin de votre position pour trouver la station la plus proche. Activez-la dans Réglages."
+          }
+        }
+      }
+    },
+    "In Progress" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cours"
+          }
+        }
+      }
+    },
+    "In the saddle" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En selle"
+          }
+        }
+      }
+    },
+    "Inactive" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactif"
+          }
+        }
+      }
+    },
+    "Included time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps inclus"
+          }
+        }
+      }
+    },
+    "Jump to nearest %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aller aux %@ les plus proches"
+          }
+        }
+      }
+    },
+    "km" : {
+
+    },
+    "Last rated" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière note"
+          }
+        }
+      }
+    },
+    "Legend: green plenty, orange few, red none" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Légende : vert beaucoup, orange peu, rouge aucun"
+          }
+        }
+      }
+    },
+    "Loading account…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement du compte…"
+          }
+        }
+      }
+    },
+    "Loading news…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des actualités…"
+          }
+        }
+      }
+    },
+    "Loading rides…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des trajets…"
+          }
+        }
+      }
+    },
+    "Loading stations…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des stations…"
+          }
+        }
+      }
+    },
+    "Loading…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement…"
+          }
+        }
+      }
+    },
+    "Long-term subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnement longue durée"
+          }
+        }
+      }
+    },
+    "Longest ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet le plus long"
+          }
+        }
+      }
+    },
+    "Look Up a Bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher un vélo"
+          }
+        }
+      }
+    },
+    "Looking up…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche…"
+          }
+        }
+      }
+    },
+    "Maintenance" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenance"
+          }
+        }
+      }
+    },
+    "Map shows" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La carte affiche"
+          }
+        }
+      }
+    },
+    "Maybe later" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
+          }
+        }
+      }
+    },
+    "Mech / Elec" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Méca / Élec"
+          }
+        }
+      }
+    },
+    "mechanical" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mécanique"
+          }
+        }
+      }
+    },
+    "Mechanical" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mécanique"
+          }
+        }
+      }
+    },
+    "Mechanical %lld" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mécaniques %lld"
+          }
+        }
+      }
+    },
+    "Menu" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        }
+      }
+    },
+    "Mixed charges" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frais mixtes"
+          }
+        }
+      }
+    },
+    "Most common start" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Départ le plus fréquent"
+          }
+        }
+      }
+    },
+    "Movement ref" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réf. mouvement"
+          }
+        }
+      }
+    },
+    "My Rides" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes trajets"
+          }
+        }
+      }
+    },
+    "My Subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon abonnement"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Nearest bikes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélos les plus proches"
+          }
+        }
+      }
+    },
+    "Nearest dock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place la plus proche"
+          }
+        }
+      }
+    },
+    "Nearest first" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les plus proches d'abord"
+          }
+        }
+      }
+    },
+    "Nearest free dock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place libre la plus proche"
+          }
+        }
+      }
+    },
+    "News" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualités"
+          }
+        }
+      }
+    },
+    "News & Alerts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualités et alertes"
+          }
+        }
+      }
+    },
+    "No active booking." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune réservation en cours."
+          }
+        }
+      }
+    },
+    "No active Vélo'v subscription found on your account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun abonnement Vélo'v actif sur votre compte."
+          }
+        }
+      }
+    },
+    "No active Vélo'v subscription found on your account. (%@)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun abonnement Vélo'v actif sur votre compte. (%@)"
+          }
+        }
+      }
+    },
+    "No Bike With That Number" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo avec ce numéro"
+          }
+        }
+      }
+    },
+    "No bikes currently docked here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo attaché ici pour le moment."
+          }
+        }
+      }
+    },
+    "No Favorites Yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun favori"
+          }
+        }
+      }
+    },
+    "No Full Stations Right Now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune station pleine actuellement"
+          }
+        }
+      }
+    },
+    "No Rides Yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun trajet"
+          }
+        }
+      }
+    },
+    "No Starred Stations" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune station favorite"
+          }
+        }
+      }
+    },
+    "No station nearby currently has what you're filtering for." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune station proche ne correspond à ce filtre pour le moment."
+          }
+        }
+      }
+    },
+    "No subscription found on this account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun abonnement trouvé sur ce compte."
+          }
+        }
+      }
+    },
+    "No Subscriptions" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun abonnement"
+          }
+        }
+      }
+    },
+    "No transactions on this account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune transaction sur ce compte."
+          }
+        }
+      }
+    },
+    "None" : {
+      "comment" : "Map legend: no bikes or docks",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun"
+          }
+        }
+      }
+    },
+    "not accepting returns" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n'accepte pas les retours"
+          }
+        }
+      }
+    },
+    "Not in the live feed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Absentes du flux en direct"
+          }
+        }
+      }
+    },
+    "Not now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas maintenant"
+          }
+        }
+      }
+    },
+    "Not Now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
+          }
+        }
+      }
+    },
+    "Nothing Matches That Filter" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun résultat pour ce filtre"
+          }
+        }
+      }
+    },
+    "Nothing to Report" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à signaler"
+          }
+        }
+      }
+    },
+    "Notifies you when you reach the station holding your bike, so you can unlock without opening the app first. Uses GPS in the background for as long as the hold lasts." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous prévient quand vous arrivez à la station qui garde votre vélo, pour le déverrouiller sans ouvrir l'app d'abord. Utilise le GPS en arrière-plan pendant toute la réservation."
+          }
+        }
+      }
+    },
+    "now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "maintenant"
+          }
+        }
+      }
+    },
+    "Off" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Éteint"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "On foot" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À pied"
+          }
+        }
+      }
+    },
+    "Once you've taken a few rides, this is where the totals show up." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après quelques trajets, vos totaux apparaîtront ici."
+          }
+        }
+      }
+    },
+    "Open" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouverte"
+          }
+        }
+      }
+    },
+    "Open iOS Settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les Réglages iOS"
+          }
+        }
+      }
+    },
+    "Open map" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la carte"
+          }
+        }
+      }
+    },
+    "Open the Vélo'v map" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la carte Vélo'v"
+          }
+        }
+      }
+    },
+    "Opens OpenVeloV on the live station map." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre OpenVeloV sur la carte des stations en direct."
+          }
+        }
+      }
+    },
+    "OpenVeloV is an independent, open-source client for Lyon's Vélo'v. It is not affiliated with, endorsed by, or supported by JCDecaux or Grand Lyon." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpenVeloV est un client indépendant et open source pour le Vélo'v lyonnais. Il n'est ni affilié, ni approuvé, ni soutenu par JCDecaux ou la Métropole de Lyon."
+          }
+        }
+      }
+    },
+    "Paid" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payant"
+          }
+        }
+      }
+    },
+    "Parking spots" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places de stationnement"
+          }
+        }
+      }
+    },
+    "Parking subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnement parking"
+          }
+        }
+      }
+    },
+    "Partially refunded" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partiellement remboursé"
+          }
+        }
+      }
+    },
+    "Paused" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En pause"
+          }
+        }
+      }
+    },
+    "Pay-as-you-go" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paiement à l'usage"
+          }
+        }
+      }
+    },
+    "Pending" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente"
+          }
+        }
+      }
+    },
+    "Per-bike detail isn't available in this build — it needs the public site's anonymous web-client credential, which this open-source repository doesn't ship." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le détail vélo par vélo n'est pas disponible dans cette version : il nécessite l'identifiant de client web anonyme du site public, que ce dépôt open source ne fournit pas."
+          }
+        }
+      }
+    },
+    "Plenty" : {
+      "comment" : "Map legend: lots of bikes or docks",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beaucoup"
+          }
+        }
+      }
+    },
+    "Points spent" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Points dépensés"
+          }
+        }
+      }
+    },
+    "Preview only — no real bike was unlocked." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu uniquement — aucun vélo n'a réellement été déverrouillé."
+          }
+        }
+      }
+    },
+    "Price" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prix"
+          }
+        }
+      }
+    },
+    "Processing" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cours de traitement"
+          }
+        }
+      }
+    },
+    "Range" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Période"
+          }
+        }
+      }
+    },
+    "Rate a bike after a ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter un vélo après un trajet"
+          }
+        }
+      }
+    },
+    "Rate This Ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter ce trajet"
+          }
+        }
+      }
+    },
+    "Rate Your Ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notez votre trajet"
+          }
+        }
+      }
+    },
+    "Rated" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noté"
+          }
+        }
+      }
+    },
+    "Rating" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note"
+          }
+        }
+      }
+    },
+    "Read more" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire la suite"
+          }
+        }
+      }
+    },
+    "Record my route" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer mon parcours"
+          }
+        }
+      }
+    },
+    "Records your ride's path and uploads it to your Vélo'v account when you dock, so past rides show a real route on the map instead of just the start and end stations. Uses GPS in the background while you're riding." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre le tracé de votre trajet et l'envoie à votre compte Vélo'v à l'attache, pour que vos trajets passés affichent un vrai parcours sur la carte plutôt que les seules stations de départ et d'arrivée. Utilise le GPS en arrière-plan pendant que vous roulez."
+          }
+        }
+      }
+    },
+    "Reduced price" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prix réduit"
+          }
+        }
+      }
+    },
+    "Reference" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Références"
+          }
+        }
+      }
+    },
+    "Refund" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remboursement"
+          }
+        }
+      }
+    },
+    "Refunded" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remboursé"
+          }
+        }
+      }
+    },
+    "Rejected" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refusé"
+          }
+        }
+      }
+    },
+    "Release" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lâchez"
+          }
+        }
+      }
+    },
+    "Remove" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer"
+          }
+        }
+      }
+    },
+    "Remove from favorites" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer des favoris"
+          }
+        }
+      }
+    },
+    "Renewal" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renouvellement"
+          }
+        }
+      }
+    },
+    "Rented" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En location"
+          }
+        }
+      }
+    },
+    "Requested" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demandé"
+          }
+        }
+      }
+    },
+    "Reserved" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réservé"
+          }
+        }
+      }
+    },
+    "Return a bike to an empty station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapporter un vélo à une station vide"
+          }
+        }
+      }
+    },
+    "Reversed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulé"
+          }
+        }
+      }
+    },
+    "reward points" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "points de récompense"
+          }
+        }
+      }
+    },
+    "Rewards" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Récompenses"
+          }
+        }
+      }
+    },
+    "Rewards earned" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Points gagnés"
+          }
+        }
+      }
+    },
+    "Rewards spent" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Points dépensés"
+          }
+        }
+      }
+    },
+    "Ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet"
+          }
+        }
+      }
+    },
+    "Ride Alerts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes de trajet"
+          }
+        }
+      }
+    },
+    "Ride bonus" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonus de trajet"
+          }
+        }
+      }
+    },
+    "Ride charges" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frais de trajet"
+          }
+        }
+      }
+    },
+    "Ride complete" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet terminé"
+          }
+        }
+      }
+    },
+    "Ride Detail" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détail du trajet"
+          }
+        }
+      }
+    },
+    "Ride Ended" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet terminé"
+          }
+        }
+      }
+    },
+    "Ride ending soon" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin du temps inclus"
+          }
+        }
+      }
+    },
+    "Ride Ending Soon" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin du temps inclus"
+          }
+        }
+      }
+    },
+    "Ride History" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique des trajets"
+          }
+        }
+      }
+    },
+    "Ride lasted %@." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet de %@."
+          }
+        }
+      }
+    },
+    "Rides" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajets"
+          }
+        }
+      }
+    },
+    "Riding" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En route"
+          }
+        }
+      }
+    },
+    "Riding · Bike #%@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En route · Vélo n° %@"
+          }
+        }
+      }
+    },
+    "Route" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcours"
+          }
+        }
+      }
+    },
+    "Route saved to this ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcours enregistré pour ce trajet"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher"
+          }
+        }
+      }
+    },
+    "Search stations" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher une station"
+          }
+        }
+      }
+    },
+    "See the closest available stations" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir les stations disponibles les plus proches"
+          }
+        }
+      }
+    },
+    "Service alerts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes de service"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Short-term subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnement courte durée"
+          }
+        }
+      }
+    },
+    "Show on Map" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir sur la carte"
+          }
+        }
+      }
+    },
+    "Sign In" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter"
+          }
+        }
+      }
+    },
+    "Sign In Required" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion requise"
+          }
+        }
+      }
+    },
+    "Sign in to see your billing." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour voir votre facturation."
+          }
+        }
+      }
+    },
+    "Sign in to see your impact." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour voir votre impact."
+          }
+        }
+      }
+    },
+    "Sign in to see your rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour voir vos trajets."
+          }
+        }
+      }
+    },
+    "Sign in to see your subscription." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour voir votre abonnement."
+          }
+        }
+      }
+    },
+    "Sign in to unlock a bike." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour déverrouiller un vélo."
+          }
+        }
+      }
+    },
+    "Sign in with your Vélo'v account to manage bookings and subscriptions." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous avec votre compte Vélo'v pour gérer vos réservations et vos abonnements."
+          }
+        }
+      }
+    },
+    "Sign in with your Vélo'v account to unlock or book a bike." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous avec votre compte Vélo'v pour déverrouiller ou réserver un vélo."
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter"
+          }
+        }
+      }
+    },
+    "Sign out of your Vélo'v account?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter de votre compte Vélo'v ?"
+          }
+        }
+      }
+    },
+    "Sign-in didn't complete. Try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La connexion n'a pas abouti. Réessayez."
+          }
+        }
+      }
+    },
+    "Sign-in was cancelled." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion annulée."
+          }
+        }
+      }
+    },
+    "Skip" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer"
+          }
+        }
+      }
+    },
+    "Something went wrong. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une erreur est survenue. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Sort bikes by %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trier les vélos par %@"
+          }
+        }
+      }
+    },
+    "Sort by" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trier par"
+          }
+        }
+      }
+    },
+    "Special trip" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajet spécial"
+          }
+        }
+      }
+    },
+    "Spend points automatically" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépenser les points automatiquement"
+          }
+        }
+      }
+    },
+    "Stand" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borne"
+          }
+        }
+      }
+    },
+    "Stand %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borne %@"
+          }
+        }
+      }
+    },
+    "Starred" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoris"
+          }
+        }
+      }
+    },
+    "Start" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Départ"
+          }
+        }
+      }
+    },
+    "Start a ride from overflow parking" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partir depuis un stationnement en débordement"
+          }
+        }
+      }
+    },
+    "Started" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencé"
+          }
+        }
+      }
+    },
+    "Starts a real, billable ride immediately" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarre immédiatement un trajet réel et facturable"
+          }
+        }
+      }
+    },
+    "Station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station"
+          }
+        }
+      }
+    },
+    "Station %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station %@"
+          }
+        }
+      }
+    },
+    "Station name" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom de la station"
+          }
+        }
+      }
+    },
+    "Stay in\nthe loop" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restez\ninformé"
+          }
+        }
+      }
+    },
+    "Step %lld of %lld" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %lld sur %lld"
+          }
+        }
+      }
+    },
+    "Stolen" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volé"
+          }
+        }
+      }
+    },
+    "Subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnement"
+          }
+        }
+      }
+    },
+    "Subscription ref" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réf. abonnement"
+          }
+        }
+      }
+    },
+    "Switch to a new subscription" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer d'abonnement"
+          }
+        }
+      }
+    },
+    "Take a bike from a full station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prendre un vélo dans une station pleine"
+          }
+        }
+      }
+    },
+    "Tap the star on any station to save it here for quick access." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez l'étoile d'une station pour la retrouver ici rapidement."
+          }
+        }
+      }
+    },
+    "Tell me when I arrive" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Me prévenir à l'arrivée"
+          }
+        }
+      }
+    },
+    "Tells you how many Vélo'v bikes are at the closest station." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indique combien de vélos Vélo'v se trouvent à la station la plus proche."
+          }
+        }
+      }
+    },
+    "Tells you where the closest free Vélo'v dock is." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indique où se trouve la place Vélo'v libre la plus proche."
+          }
+        }
+      }
+    },
+    "That conflicts with something already in progress — pull to refresh and check." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela entre en conflit avec une action déjà en cours — tirez pour actualiser et vérifier."
+          }
+        }
+      }
+    },
+    "That isn't available right now." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n'est pas disponible pour le moment."
+          }
+        }
+      }
+    },
+    "That took too long. Check your connection and try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela a pris trop de temps. Vérifiez votre connexion et réessayez."
+          }
+        }
+      }
+    },
+    "The 15-minute extension only applies when your destination station has no free docks." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les 15 minutes supplémentaires ne s'appliquent que si votre station d'arrivée n'a aucune place libre."
+          }
+        }
+      }
+    },
+    "The map, search, and favorites all work without an account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La carte, la recherche et les favoris fonctionnent sans compte."
+          }
+        }
+      }
+    },
+    "These need location access, which is currently off. Turn it on in Settings › OpenVeloV › Location." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ces options nécessitent l'accès à votre position, actuellement désactivé. Activez-le dans Réglages › OpenVeloV › Position."
+          }
+        }
+      }
+    },
+    "These stations aren't reporting right now. They may have been removed from the network." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ces stations ne remontent aucune donnée. Elles ont peut-être été retirées du réseau."
+          }
+        }
+      }
+    },
+    "This bike is missing the station or stand number needed to unlock it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le numéro de station ou de borne nécessaire au déverrouillage manque pour ce vélo."
+          }
+        }
+      }
+    },
+    "This booking is missing the details needed to unlock." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque à cette réservation les informations nécessaires au déverrouillage."
+          }
+        }
+      }
+    },
+    "This build has no Vélo'v web-client credential, so signing in won't work. See Config/Secrets.example.xcconfig." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette version n'a pas d'identifiant de client web Vélo'v : la connexion ne fonctionnera pas. Voir Config/Secrets.example.xcconfig."
+          }
+        }
+      }
+    },
+    "This ride is missing details needed to rate it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque à ce trajet les informations nécessaires pour le noter."
+          }
+        }
+      }
+    },
+    "This ride is no longer available." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce trajet n'est plus disponible."
+          }
+        }
+      }
+    },
+    "This spends reward points from your account and cannot be undone from here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette action dépense les points de votre compte et ne peut pas être annulée ici."
+          }
+        }
+      }
+    },
+    "This station isn't reporting its bikes right now." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette station ne remonte pas ses vélos pour le moment."
+          }
+        }
+      }
+    },
+    "This station's number couldn't be read." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le numéro de cette station n'a pas pu être lu."
+          }
+        }
+      }
+    },
+    "This subscription is locked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet abonnement est bloqué"
+          }
+        }
+      }
+    },
+    "This year" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette année"
+          }
+        }
+      }
+    },
+    "Timed Out" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiré"
+          }
+        }
+      }
+    },
+    "Timing" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horaires"
+          }
+        }
+      }
+    },
+    "To" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À"
+          }
+        }
+      }
+    },
+    "To be invoiced" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À facturer"
+          }
+        }
+      }
+    },
+    "Too many requests just now. Wait a moment and try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trop de requêtes pour le moment. Patientez un instant et réessayez."
+          }
+        }
+      }
+    },
+    "Total time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps total"
+          }
+        }
+      }
+    },
+    "Track your rides, ratings, and rewards" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivez vos trajets, vos notes et vos points"
+          }
+        }
+      }
+    },
+    "Transaction" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transaction"
+          }
+        }
+      }
+    },
+    "Transactions" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transactions"
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayer"
+          }
+        }
+      }
+    },
+    "Turn on notifications" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer les notifications"
+          }
+        }
+      }
+    },
+    "Turn on notifications so you never miss a booking hold, the end of your included ride time, or a docking alert." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activez les notifications pour ne manquer ni une réservation, ni la fin de votre temps inclus, ni une alerte d'attache."
+          }
+        }
+      }
+    },
+    "Turn points into a promo code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convertir mes points en code promo"
+          }
+        }
+      }
+    },
+    "Type the number printed on a Vélo'v frame to see its rating, battery, and where it is." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez le numéro inscrit sur le cadre d'un Vélo'v pour voir sa note, sa batterie et sa position."
+          }
+        }
+      }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu"
+          }
+        }
+      }
+    },
+    "Unknown station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station inconnue"
+          }
+        }
+      }
+    },
+    "Unlock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller"
+          }
+        }
+      }
+    },
+    "Unlock Failed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec du déverrouillage"
+          }
+        }
+      }
+    },
+    "Unlock Now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller maintenant"
+          }
+        }
+      }
+    },
+    "Unlock or book a bike in seconds" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouillez ou réservez un vélo en quelques secondes"
+          }
+        }
+      }
+    },
+    "Unlocking bike #%@…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouillage du vélo n° %@…"
+          }
+        }
+      }
+    },
+    "Unlocking your bike…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouillage de votre vélo…"
+          }
+        }
+      }
+    },
+    "Unlocking…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouillage…"
+          }
+        }
+      }
+    },
+    "Unrated" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non noté"
+          }
+        }
+      }
+    },
+    "Unreachable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Injoignable"
+          }
+        }
+      }
+    },
+    "Use a promo code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser un code promo"
+          }
+        }
+      }
+    },
+    "Valid from" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valable du"
+          }
+        }
+      }
+    },
+    "Valid until" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valable jusqu'au"
+          }
+        }
+      }
+    },
+    "Vélo'v didn't report where this bike is docked, so it can't be unlocked from here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v n'indique pas où ce vélo est attaché : impossible de le déverrouiller depuis l'app."
+          }
+        }
+      }
+    },
+    "Vélo'v didn't return CO₂, calorie, or distance figures for this account. The distance above is estimated from your total riding time at an average city pace, not measured." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v n'a renvoyé ni CO₂, ni calories, ni distance pour ce compte. La distance ci-dessus est estimée à partir de votre temps de trajet à une allure urbaine moyenne, elle n'est pas mesurée."
+          }
+        }
+      }
+    },
+    "Vélo'v didn't return the list of rewarded actions for this contract." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v n'a pas renvoyé la liste des actions récompensées pour ce contrat."
+          }
+        }
+      }
+    },
+    "Vélo'v doesn't allow this app to do that." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v n'autorise pas cette app à faire cela."
+          }
+        }
+      }
+    },
+    "Vélo'v has no record of a bike with that number, or it isn't currently docked." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v ne connaît aucun vélo portant ce numéro, ou il n'est pas attaché actuellement."
+          }
+        }
+      }
+    },
+    "Vélo'v includes a set amount of ride time in each subscription, and no endpoint reports how much yours has — set it here so the warning arrives at the right moment. Long-term subscriptions usually include 30 minutes." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque abonnement Vélo'v inclut un temps de trajet, et aucune API n'indique celui du vôtre — réglez-le ici pour que l'alerte arrive au bon moment. Les abonnements longue durée incluent généralement 30 minutes."
+          }
+        }
+      }
+    },
+    "Vélo'v isn't publishing any news or service alerts right now." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v ne publie aucune actualité ni alerte de service pour le moment."
+          }
+        }
+      }
+    },
+    "Vélo'v sent back something this app didn't understand." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v a renvoyé une réponse que cette app n'a pas comprise."
+          }
+        }
+      }
+    },
+    "Vélo'v station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station Vélo'v"
+          }
+        }
+      }
+    },
+    "Vélo'v turned down the unlock (%@). Try again, or pick another bike." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v a refusé le déverrouillage (%@). Réessayez ou choisissez un autre vélo."
+          }
+        }
+      }
+    },
+    "Vélo'v won't share per-bike detail with this account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v ne communique pas le détail vélo par vélo à ce compte."
+          }
+        }
+      }
+    },
+    "Vélo'v won't share this part of your account with the app." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v ne communique pas cette partie de votre compte à l'app."
+          }
+        }
+      }
+    },
+    "Vélo'v won't share this subscription's details with this account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v ne communique pas les détails de cet abonnement à ce compte."
+          }
+        }
+      }
+    },
+    "Vélo'v's servers are having trouble. Try again in a moment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les serveurs Vélo'v rencontrent un problème. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        }
+      }
+    },
+    "Walking Directions" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Itinéraire à pied"
+          }
+        }
+      }
+    },
+    "Warn before free time ends" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévenir avant la fin du temps inclus"
+          }
+        }
+      }
+    },
+    "Warn me" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Me prévenir"
+          }
+        }
+      }
+    },
+    "Warning" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avertissement"
+          }
+        }
+      }
+    },
+    "Welcome to\nOpenVeloV" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue sur\nOpenVeloV"
+          }
+        }
+      }
+    },
+    "When this is on, Vélo'v applies your points to charges as they come up, instead of letting them build up." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand cette option est active, Vélo'v applique vos points aux frais au fil de l'eau au lieu de les laisser s'accumuler."
+          }
+        }
+      }
+    },
+    "When you ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand vous roulez"
+          }
+        }
+      }
+    },
+    "Would you recommend this bike to other riders?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommanderiez-vous ce vélo à d'autres usagers ?"
+          }
+        }
+      }
+    },
+    "You appear to be offline. Check your connection and try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous semblez hors ligne. Vérifiez votre connexion et réessayez."
+          }
+        }
+      }
+    },
+    "You don't have any Vélo'v subscriptions on this account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n'avez aucun abonnement Vélo'v sur ce compte."
+          }
+        }
+      }
+    },
+    "You have 60 seconds to take bike #%@ out of the stand." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous avez 60 secondes pour sortir le vélo n° %@ de la borne."
+          }
+        }
+      }
+    },
+    "You have 60 seconds to take the bike out of the stand." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous avez 60 secondes pour sortir le vélo de la borne."
+          }
+        }
+      }
+    },
+    "You have no active Vélo'v subscription, so booking and unlocking are unavailable." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n'avez aucun abonnement Vélo'v actif : la réservation et le déverrouillage sont indisponibles."
+          }
+        }
+      }
+    },
+    "You're at %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous êtes à %@"
+          }
+        }
+      }
+    },
+    "Your bike hold at %@ has expired." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre réservation à %@ a expiré."
+          }
+        }
+      }
+    },
+    "Your bike is docked." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre vélo est attaché."
+          }
+        }
+      }
+    },
+    "Your held bike is waiting. Open OpenVeloV to unlock it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le vélo réservé vous attend. Ouvrez OpenVeloV pour le déverrouiller."
+          }
+        }
+      }
+    },
+    "Your hold on bike #%@ at %@ has expired." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre réservation du vélo n° %@ à %@ a expiré."
+          }
+        }
+      }
+    },
+    "Your Impact" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre impact"
+          }
+        }
+      }
+    },
+    "Your included %lld minutes%@ run out in %lld min. Find a dock to avoid extra charges." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos %lld minutes incluses%@ se terminent dans %lld min. Trouvez une borne pour éviter des frais."
+          }
+        }
+      }
+    },
+    "Your promo code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre code promo"
+          }
+        }
+      }
+    },
+    "Your ride history will show up here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre historique de trajets apparaîtra ici."
+          }
+        }
+      }
+    },
+    "Your session has expired. Sign in again to continue." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre session a expiré. Reconnectez-vous pour continuer."
+          }
+        }
+      }
+    },
+    "Your starred stations stay on this device after you sign out." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos stations favorites restent sur cet appareil après la déconnexion."
+          }
+        }
+      }
+    },
+    "Your Vélo'v account has a hold that prevents booking and unlocking." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre compte Vélo'v fait l'objet d'un blocage qui empêche la réservation et le déverrouillage."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

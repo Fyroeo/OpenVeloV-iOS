@@ -1,9 +1,8 @@
 import ActivityKit
 import Foundation
 
-/// The app and the widget extension both compile this file.
-/// The app starts, updates, and ends the activity.
-/// The widget extension shows the activity.
+/// Compiled into both the app and the Live Activity extension (see the two `Shared` entries in
+/// project.yml), so it must stay free of any app-only dependency.
 struct TripActivityAttributes: ActivityAttributes {
     struct ContentState: Codable, Hashable {
         var startDate: Date

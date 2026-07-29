@@ -1,0 +1,14 @@
+// Base configuration for the OpenVeloV app target.
+//
+// The anonymous web-client credential lives in `Secrets.xcconfig`, which is NOT in git.
+// The defaults below keep the project building without it, but the app is then read-only:
+// the pair also mints the `Authorization: Taknv1` token that every authenticated call
+// carries alongside the user's own, so signing in is disabled rather than silently broken.
+//
+// To enable per-bike detail locally, copy Secrets.example.xcconfig to Secrets.xcconfig
+// and fill in the pair. See README, "Per-bike detail".
+
+VLS_WEB_CLIENT_CODE =
+VLS_WEB_CLIENT_KEY =
+
+#include? "Secrets.xcconfig"

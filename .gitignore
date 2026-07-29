@@ -4,3 +4,6 @@ OpenVeloV.xcodeproj/
 .build/
 xcuserdata/
 *.xcuserstate
+
+# Local credential, never committed. See Config/Secrets.example.xcconfig.
+Config/Secrets.xcconfig

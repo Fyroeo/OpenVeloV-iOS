@@ -1,10 +1,6 @@
 import SwiftUI
 import VLSKit
 
-/// This banner shows at the bottom of the screen during a bike hold.
-/// It uses the same layout as `ActiveTripBanner`, but with a blue theme.
-/// The timer counts down to the end of the hold.
-/// The banner has 2 actions: get directions to the station, and unlock the bike.
 struct BookingBanner: View {
     let booking: Booking
     let stationName: String?
@@ -23,14 +19,16 @@ struct BookingBanner: View {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
                         Circle().fill(.blue).frame(width: 8, height: 8)
-                        Text(stationName ?? "Bike held for you")
+                        Text(stationName ?? String(localized: "Bike held for you"))
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                     }
                     Text(booking.endTime, style: .timer)
-                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .font(.system(.largeTitle, design: .rounded).weight(.bold))
                         .monospacedDigit()
+                        .minimumScaleFactor(0.6)
+                        .lineLimit(1)
                         .foregroundStyle(.blue)
                 }
 

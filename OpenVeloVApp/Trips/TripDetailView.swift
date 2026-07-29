@@ -2,7 +2,6 @@ import MapKit
 import SwiftUI
 import VLSKit
 
-/// This view shows the full detail for 1 ride. The user opens it by tapping a row in `TripsView`.
 struct TripDetailView: View {
     let trip: Trip
     let stationNames: [Int: String]
@@ -11,9 +10,6 @@ struct TripDetailView: View {
 
     @State private var showRating = false
     @State private var cameraPosition: MapCameraPosition = .automatic
-    /// The rider's recorded GPS trace for this ride, if the server has one.
-    /// `TripService.route`'s shape is unverified, so a decode failure leaves the route
-    /// empty while the start and end pins still show.
     @State private var routeCoordinates: [CLLocationCoordinate2D] = []
 
     private var canRate: Bool {
@@ -30,8 +26,6 @@ struct TripDetailView: View {
         trip.endStation.flatMap { stationCoordinates[$0] }
     }
 
-    /// This is `true` when the start and end stations are the same, or the end station
-    /// is unknown. The map uses this value to avoid 2 pins at the same place.
     private var endIsSameAsStart: Bool {
         guard let startCoordinate, let endCoordinate else { return false }
         return startCoordinate.latitude == endCoordinate.latitude && startCoordinate.longitude == endCoordinate.longitude
@@ -49,13 +43,13 @@ struct TripDetailView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         if let bikeNumber = trip.bikeNumber {
-                            Text("Bike #\(bikeNumber)")
+                            Text("Bike #\(bikeNumber.identifierText)")
                                 .font(.headline)
                         } else {
                             Text("Ride")
                                 .font(.headline)
                         }
-                        Text(trip.bikeType == .electrical ? "Electric" : "Mechanical")
+                        (trip.bikeType == .electrical ? Text("Electric") : Text("Mechanical"))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -173,9 +167,7 @@ struct TripDetailView: View {
         fitCamera()
     }
 
-    /// A GeoJSON `LineString` coordinate is a `[longitude, latitude]` pair. It can have a
-    /// third elevation value. The order is easy to reverse by mistake.
-    /// This method returns an empty route for any other shape. It does not guess values.
+    /// A GeoJSON `LineString` coordinate is a `[longitude, latitude]` pair.
     private static func lineStringCoordinates(from geoJSON: GeoJSON) -> [CLLocationCoordinate2D] {
         guard geoJSON.type == "LineString", case .array(let points)? = geoJSON.coordinates else { return [] }
         return points.compactMap { point -> CLLocationCoordinate2D? in

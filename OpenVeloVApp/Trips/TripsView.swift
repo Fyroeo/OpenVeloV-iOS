@@ -2,19 +2,23 @@ import CoreLocation
 import SwiftUI
 import VLSKit
 
-/// This view shows the ride history. The user opens it from the hamburger menu.
 struct TripsView: View {
     @ObservedObject var authVM: AuthViewModel
+    /// Resolves station numbers to names and coordinates, which the trip feed often leaves out.
+    @ObservedObject var stationsVM: StationsViewModel
     @Environment(\.dismiss) private var dismiss
 
     @State private var trips: [Trip] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
-    /// A `Trip` never carries a station name. Only numeric `startStation` and
-    /// `endStation` codes come back from the server. The app resolves the name on
-    /// the client side, using the public GBFS station list keyed by station number.
-    @State private var stationNames: [Int: String] = [:]
-    @State private var stationCoordinates: [Int: CLLocationCoordinate2D] = [:]
+
+    private var stationNames: [Int: String] {
+        stationsVM.stationsByNumber.mapValues(\.name)
+    }
+
+    private var stationCoordinates: [Int: CLLocationCoordinate2D] {
+        stationsVM.stationsByNumber.mapValues(\.coordinate)
+    }
 
     var body: some View {
         NavigationStack {
@@ -56,11 +60,8 @@ struct TripsView: View {
                 }
             }
         }
-        .task {
-            async let tripsTask: () = loadTrips()
-            async let stationsTask: () = loadStationNames()
-            _ = await (tripsTask, stationsTask)
-        }
+        .task { await loadTrips() }
+        .refreshable { await loadTrips() }
     }
 
     private var sortedTrips: [Trip] {
@@ -69,7 +70,7 @@ struct TripsView: View {
 
     private func loadTrips() async {
         guard let accountId = authVM.accountId else {
-            errorMessage = "Sign in to see your rides."
+            errorMessage = String(localized: "Sign in to see your rides.")
             return
         }
         isLoading = true
@@ -77,208 +78,9 @@ struct TripsView: View {
         defer { isLoading = false }
         do {
             trips = try await authVM.client.trips.trips(accountId: accountId)
+            errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-
-    private func loadStationNames() async {
-        do {
-            let feed = try await GBFSClient().stationInformation()
-            var names: [Int: String] = [:]
-            var coordinates: [Int: CLLocationCoordinate2D] = [:]
-            for station in feed.data.stations {
-                guard let number = Int(station.id) else { continue }
-                names[number] = station.name.first(where: { $0.language.hasPrefix("fr") })?.text
-                    ?? station.name.first?.text
-                coordinates[number] = CLLocationCoordinate2D(latitude: station.latitude, longitude: station.longitude)
-            }
-            stationNames = names
-            stationCoordinates = coordinates
-        } catch {
-            // This error is not critical. Each row falls back to the bare station number,
-            // and the detail view hides its map section.
+            errorMessage = UserFacingError.message(for: error, context: .trips)
         }
     }
 }
-
-func stationName(forNumber number: Int?, in names: [Int: String]) -> String? {
-    guard let number else { return nil }
-    return names[number] ?? "Station \(number)"
-}
-
-func routeText(for trip: Trip, stationNames: [Int: String]) -> String {
-    let start = trip.startStationName ?? stationName(forNumber: trip.startStation, in: stationNames) ?? "Unknown station"
-    let end = trip.endStationName ?? stationName(forNumber: trip.endStation, in: stationNames)
-    guard let end, end != start else {
-        return start
-    }
-    return "\(start) → \(end)"
-}
-
-/// Computes duration from `startDateTime`/`endDateTime`, not the raw `duration` field,
-/// whose unit (seconds or minutes) is unknown.
-func formattedDuration(for trip: Trip) -> String? {
-    guard let start = trip.startDateTime, let end = trip.endDateTime else { return nil }
-    return durationFormatter.string(from: end.timeIntervalSince(start))
-}
-
-/// `price`, `reducedPrice`, and `discount` are `Int64` values, always `0` so far. This
-/// assumes the minor unit is cents, matching most JCDecaux billing fields, but that is
-/// unverified since no non-zero charge exists yet to check.
-func currencyText(_ minorUnits: Int64) -> String {
-    let amount = Decimal(minorUnits) / 100
-    return amount.formatted(.currency(code: "EUR"))
-}
-
-func priceText(for trip: Trip) -> String? {
-    guard let price = trip.price else { return nil }
-    return price == 0 ? "Free" : currencyText(price)
-}
-
-extension Trip.Status {
-    var label: String {
-        switch self {
-        case .requested: return "Requested"
-        case .started: return "In Progress"
-        case .finished, .autoFinished: return "Finished"
-        case .rejected: return "Rejected"
-        case .timeout: return "Timed Out"
-        case .paused: return "Paused"
-        case .error: return "Error"
-        case .warning: return "Warning"
-        case .reversed: return "Reversed"
-        }
-    }
-
-    var tintColor: Color {
-        switch self {
-        case .finished, .autoFinished: return .secondary
-        case .started, .requested: return .green
-        case .rejected, .error, .timeout: return .red
-        case .paused, .warning: return .orange
-        case .reversed: return .secondary
-        }
-    }
-}
-
-private struct TripRow: View {
-    let trip: Trip
-    let stationNames: [Int: String]
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: trip.bikeType == .electrical ? "bolt.fill" : "bicycle")
-                .font(.subheadline.bold())
-                .foregroundStyle(.white)
-                .frame(width: 36, height: 36)
-                .background(trip.bikeType == .electrical ? Color.green : Color.red, in: RoundedRectangle(cornerRadius: 9))
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(routeText(for: trip, stationNames: stationNames))
-                    .font(.subheadline.weight(.semibold))
-                    .lineLimit(1)
-
-                HStack(spacing: 4) {
-                    if let start = trip.startDateTime {
-                        Text(start, format: .dateTime.day().month().hour().minute())
-                    }
-                    if let duration = formattedDuration(for: trip) {
-                        Text("· \(duration)")
-                    }
-                    if let priceText = priceText(for: trip) {
-                        Text("· \(priceText)")
-                    }
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            VStack(alignment: .trailing, spacing: 4) {
-                if let status = trip.status {
-                    Text(status.label)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(status.tintColor)
-                }
-                if canBeRated {
-                    Label(trip.isRated == true ? "Rated" : "Unrated", systemImage: trip.isRated == true ? "star.fill" : "star")
-                        .font(.caption2)
-                        .foregroundStyle(trip.isRated == true ? .yellow : .secondary)
-                        .labelStyle(.iconOnly)
-                }
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    private var canBeRated: Bool {
-        trip.status == .finished || trip.status == .autoFinished
-    }
-}
-
-private struct RideStatsCard: View {
-    let trips: [Trip]
-
-    private var completedTrips: [Trip] {
-        trips.filter { $0.status == .finished || $0.status == .autoFinished }
-    }
-
-    private var totalDuration: TimeInterval {
-        completedTrips.reduce(0) { total, trip in
-            guard let start = trip.startDateTime, let end = trip.endDateTime else { return total }
-            return total + end.timeIntervalSince(start)
-        }
-    }
-
-    private var electricCount: Int {
-        completedTrips.filter { $0.bikeType == .electrical }.count
-    }
-
-    private var mechanicalCount: Int {
-        completedTrips.filter { $0.bikeType != .electrical }.count
-    }
-
-    var body: some View {
-        HStack(spacing: 0) {
-            stat(value: "\(completedTrips.count)", label: "Rides")
-            Divider().frame(height: 36)
-            stat(value: totalDurationText, label: "Total time")
-            Divider().frame(height: 36)
-            stat(value: "\(mechanicalCount)/\(electricCount)", label: "Mech / Elec")
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 16))
-    }
-
-    private var totalDurationText: String {
-        let totalMinutes = Int(totalDuration / 60)
-        if totalMinutes >= 60 {
-            let hours = totalMinutes / 60
-            let minutes = totalMinutes % 60
-            return minutes == 0 ? "\(hours)h" : "\(hours)h\(minutes)"
-        }
-        return "\(totalMinutes)m"
-    }
-
-    private func stat(value: String, label: String) -> some View {
-        VStack(spacing: 4) {
-            Text(value)
-                .font(.title3.bold())
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-private let durationFormatter: DateComponentsFormatter = {
-    let f = DateComponentsFormatter()
-    f.allowedUnits = [.hour, .minute, .second]
-    f.unitsStyle = .abbreviated
-    f.maximumUnitCount = 2
-    return f
-}()

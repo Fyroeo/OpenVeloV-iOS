@@ -1,0 +1,181 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+      "shouldTranslate" : false
+    },
+    "%@ mech · %@ elec · %@ docks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ mech · %2$@ elec · %3$@ docks"
+          }
+        }
+      }
+    },
+    "%1$@ mech · %2$@ elec · %3$@ docks" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ méca · %2$@ élec · %3$@ places"
+          }
+        }
+      }
+    },
+    "Bike #%@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo n° %@"
+          }
+        }
+      }
+    },
+    "Bike #%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bike #%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Bike #%1$@ · %2$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo n° %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Bike held for you" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo réservé pour vous"
+          }
+        }
+      }
+    },
+    "Couldn't refresh" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualisation impossible"
+          }
+        }
+      }
+    },
+    "elapsed" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "écoulé"
+          }
+        }
+      }
+    },
+    "Electric" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Électrique"
+          }
+        }
+      }
+    },
+    "Location access needed to find your nearest station." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Position requise pour trouver votre station la plus proche."
+          }
+        }
+      }
+    },
+    "Mechanical" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mécanique"
+          }
+        }
+      }
+    },
+    "Nearest" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au plus près"
+          }
+        }
+      }
+    },
+    "Nearest station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station la plus proche"
+          }
+        }
+      }
+    },
+    "Riding" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En route"
+          }
+        }
+      }
+    },
+    "Stand %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borne %@"
+          }
+        }
+      }
+    },
+    "Station" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station"
+          }
+        }
+      }
+    },
+    "Station unavailable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station indisponible"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

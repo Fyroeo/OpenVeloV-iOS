@@ -24,21 +24,41 @@ do, end to end.
 ## What it does
 
 - **Live station map** — every Lyon Vélo'v station, color-coded by bike availability,
-  with no login and no API key (`VLSKit.GBFSClient`).
+  with no login and no API key (`VLSKit.GBFSClient`). Pins cluster by zoom, so the ~430
+  stations stay readable at city scale.
+- **Search and nearby** — find a station by name, or browse what's closest with walking
+  distance and time.
 - **Per-bike detail** — type, battery level, lock status, and rider ratings for every
-  bike at a station, using the same anonymous access the public Vélo'v website itself
-  uses for logged-out visitors (`VLSKit.BikeDetailClient`).
+  bike at a station, sortable by stand, battery, or rating, with a "best pick" badge,
+  using the same anonymous access the public Vélo'v website itself uses for logged-out
+  visitors (`VLSKit.BikeDetailClient`).
 - **Sign in** — Keycloak PKCE login via a `WKWebView` (`VLSKitUI.LoginView`).
 - **Book and unlock a bike** — hold a specific bike at a stand, then unlock it.
 - **Live Activities** — a Lock Screen and Dynamic Island presentation for an active ride
   and for a booking hold, each with a live countdown.
-- **Trip history and rating** — past rides, plus a thumbs up/down prompt after each one.
-- **Favorites** — star stations for quick access.
-- **Account and subscription** — profile summary, subscription status, and requesting
-  15 extra minutes when a destination station has no free docks.
-- **Background refresh and push notifications** — an adaptive `BGTaskScheduler` refresh
-  (faster while a ride or hold is active) and local notifications for booking expiry and
-  ride completion.
+- **Home and Lock Screen widgets** — live bikes or free docks at a station you pick, or
+  whichever is nearest, in every widget family including the accessory sizes. Plus a
+  Control Center control on iOS 18.
+- **Siri and Shortcuts** — "find bikes near me" and "find a dock" answer out loud without
+  opening the app.
+- **Trip history, rating and impact** — past rides, a thumbs up/down prompt after each
+  one, and a totals screen (rides, time, bike-type split, weekday pattern, and CO₂ /
+  calories / distance where Vélo'v reports them).
+- **Ride route recording** — optionally records your ride's trace and uploads it to your
+  account, so past rides show a real route rather than two pins.
+- **Favorites** — star stations for quick access. They work signed out and reconcile with
+  the account's bookmarks when you sign in.
+- **Bonus stations** — the stations that award reward points, badged on the map.
+- **Account, subscription, rewards and billing** — profile summary, subscription status,
+  reward balance with auto-spend and promo-code redemption, account balance with
+  per-transaction PDF bills, and requesting 15 extra minutes when a destination station
+  has no free docks.
+- **News and service alerts** — Vélo'v's feed and any broadcast service events.
+- **Background refresh and notifications** — an adaptive `BGTaskScheduler` refresh
+  (faster while a ride or hold is active) and local notifications for booking expiry,
+  ride completion, arriving at the station holding your bike, and the included ride time
+  running out.
+- **English and French**, with VoiceOver labels and Dynamic Type throughout.
 
 ## Architecture
 
@@ -46,17 +66,21 @@ The app is organized by feature, not by file type:
 
 ```
 OpenVeloVApp/
-  Map/            Live station map, station detail, per-bike list, favorites
-  Account/        Login state, profile, subscription
-  Trips/          Active-ride banner, trip history, rating, extra time
-  Booking/        Booking a bike, the hold banner, unlocking it
+  Map/            Live station map, clustering, search, station detail, favorites
+  Account/        Login state, profile, subscription, rewards, billing
+  Trips/          Active-ride banner, trip history, rating, extra time, impact
+  Booking/        Booking a bike, the hold banner, unlocking it, bike lookup
+  News/           Vélo'v news feed and service alerts
+  Intents/        App Intents for Siri and Shortcuts
+  Settings/       Rider-adjustable behaviour
   Notifications/  Local notification scheduling
   LiveActivity/   Starts/updates/ends the two Live Activities
   Background/     BGTaskScheduler refresh
-  Support/        Location, shared error types
+  Support/        Location, ride tracking, settings, shared error types
   Onboarding/     First-launch permission priming
-Shared/                        Live Activity attribute types (app + widget extension)
-TripLiveActivityExtension/      The Live Activity widget extension target
+Shared/                        Live Activity attributes and deep links (app + extension)
+TripLiveActivityExtension/      Live Activities, the station widget, the control
+OpenVeloVTests/                 Unit tests for the pure logic
 ```
 
 3 view models split this state by concern: `AuthViewModel` (in `Account/`) owns the
@@ -65,6 +89,15 @@ login session and account, `TripViewModel` (in `Trips/`) owns the active ride, a
 `BookingViewModel` each hold a reference to `AuthViewModel` for the client and account
 ID; a confirmed ride start clears a pending booking through a closure `ContentView`
 wires between them, not a direct reference in either direction.
+
+Two more objects sit alongside them: `FavoritesStore` owns starred stations (locally,
+so they survive being signed out) and `StationsViewModel` is the single source of station
+data — anything needing a station name, coordinate, or live count reads it from there
+rather than fetching GBFS again.
+
+Strings are localized through String Catalogs. Note that a `String` handed to `Text` is
+shown verbatim, so anything user-facing returned from a Swift function goes through
+`String(localized:)` rather than a bare literal.
 
 Every feature here is a thin SwiftUI/Combine layer over VLSKit. There's no networking,
 JSON decoding, or authentication logic in the app itself — that all lives in the
@@ -89,10 +122,28 @@ removing, or moving a source file. If your machine only has the Command Line Too
 installed, point at a full Xcode install first:
 `export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`.
 
-The live map works immediately, with no account. Login, booking, and unlocking need a
-real Vélo'v account and — for the anonymous per-bike-detail feature — your own copy of
-the public website's anonymous web-client credential (VLSKit ships no default for this;
-see `VLSEnvironment`'s doc comment in VLSKit for why).
+The live map, search, favorites, and the widgets all work immediately, with no account.
+Login, booking, and unlocking need a real Vélo'v account.
+
+### Per-bike detail
+
+The per-bike list (type, battery, rating) uses the same anonymous access the public
+Vélo'v website gives logged-out visitors. That needs a `{code, key}` credential pair
+which VLSKit ships no default for, and which this repository does not commit either —
+it is JCDecaux's, not ours to redistribute. See VLSKit's `API_REFERENCE.md`, section
+"Per-bike detail", for where the value comes from and the terms-of-service framing
+before you use it.
+
+To enable the feature locally:
+
+```sh
+cp Config/Secrets.example.xcconfig Config/Secrets.xcconfig
+```
+
+Fill in the pair, then `xcodegen generate` and build. `Config/Secrets.xcconfig` is
+gitignored; the values reach the app through build settings and `Info.plist` (see
+`AppSecrets`). Without the file the project still builds — the per-bike list simply
+reports that the feature is not configured in this build.
 
 ## License
 
