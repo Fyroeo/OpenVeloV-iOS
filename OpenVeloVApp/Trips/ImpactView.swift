@@ -5,6 +5,7 @@ import VLSKit
 struct ImpactView: View {
     @StateObject private var viewModel: ImpactViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var selectedAchievement: Achievement?
 
     init(authVM: AuthViewModel) {
         _viewModel = StateObject(wrappedValue: ImpactViewModel(authViewModel: authVM))
@@ -55,13 +56,37 @@ struct ImpactView: View {
                 .pickerStyle(.segmented)
 
                 headlineTiles
+                StreakCard(
+                    currentWeeks: viewModel.metrics.currentStreakWeeks,
+                    longestWeeks: viewModel.metrics.longestStreakWeeks
+                )
                 comparedToDrivingCard
                 rhythmCard
+                MonthlyRidesCard(data: viewModel.ridesByMonth)
                 bikeTypeCard
+                RecordsCard(records: records)
+                AchievementsCard(achievements: viewModel.achievements) { selectedAchievement = $0 }
             }
             .padding(16)
             .animation(.smooth(duration: 0.25), value: viewModel.range)
         }
+        .sheet(item: $selectedAchievement) { achievement in
+            AchievementDetailSheet(achievement: achievement)
+        }
+    }
+
+    private var records: [ImpactRecord] {
+        let metrics = viewModel.metrics
+        return [
+            ImpactRecord(label: "Longest ride", value: durationText(TimeInterval(metrics.longestRideMinutes * 60)),
+                         systemImage: "timer", tint: .pink),
+            ImpactRecord(label: "Best day", value: String(localized: "\(metrics.mostRidesInADay) rides"),
+                         systemImage: "calendar", tint: .orange),
+            ImpactRecord(label: "Stations visited", value: "\(metrics.distinctStations)",
+                         systemImage: "mappin.and.ellipse", tint: .teal),
+            ImpactRecord(label: "Car trips skipped", value: "\(metrics.rideCount)",
+                         systemImage: "car.fill", tint: .green),
+        ]
     }
 
     // MARK: - Headline

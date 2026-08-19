@@ -88,6 +88,42 @@ final class ImpactViewModel: ObservableObject {
     var electricCount: Int { completedTrips.filter { $0.bikeType == .electrical }.count }
     var mechanicalCount: Int { completedTrips.filter { $0.bikeType != .electrical }.count }
 
+    // MARK: - All-time (range-independent) — streaks, records and badges
+
+    /// Every finished ride, ignoring the range picker: streaks and badges only make sense
+    /// over the whole history.
+    var allCompletedTrips: [Trip] {
+        trips.filter { $0.status == .finished || $0.status == .autoFinished }
+    }
+
+    var metrics: TripMetrics { TripMetrics(completedTrips: allCompletedTrips) }
+
+    var achievements: [Achievement] { Achievement.all(for: metrics) }
+
+    var unlockedAchievementCount: Int { achievements.filter(\.isUnlocked).count }
+
+    /// Rides per month over the last six calendar months, oldest first.
+    var ridesByMonth: [(symbol: String, count: Int)] {
+        let calendar = Calendar.current
+        let now = Date()
+        let months: [Date] = (0..<6).reversed().compactMap {
+            calendar.date(byAdding: .month, value: -$0, to: now)
+                .flatMap { calendar.dateInterval(of: .month, for: $0)?.start }
+        }
+        var counts = [Date: Int](uniqueKeysWithValues: months.map { ($0, 0) })
+        for trip in allCompletedTrips {
+            guard let start = trip.startDateTime,
+                  let monthStart = calendar.dateInterval(of: .month, for: start)?.start,
+                  counts[monthStart] != nil else { continue }
+            counts[monthStart, default: 0] += 1
+        }
+        let symbols = calendar.shortStandaloneMonthSymbols
+        return months.map { month in
+            let index = calendar.component(.month, from: month) - 1
+            return (symbol: String(symbols[index].prefix(1)).uppercased(), count: counts[month] ?? 0)
+        }
+    }
+
     var ridesByWeekday: [(symbol: String, count: Int)] {
         let calendar = Calendar.current
         var counts = [Int](repeating: 0, count: 7)

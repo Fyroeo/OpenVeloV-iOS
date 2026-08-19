@@ -108,11 +108,34 @@
         }
       }
     },
+    "%@, locked, %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, locked, %2$lld of %3$lld"
+          }
+        }
+      }
+    },
+    "%@, unlocked" : {
+
+    },
     "%d" : {
       "shouldTranslate" : false
     },
     "%lld" : {
       "shouldTranslate" : false
+    },
+    "%lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld / %2$lld"
+          }
+        }
+      }
     },
     "%lld electric" : {
       "extractionState" : "stale",
@@ -207,6 +230,16 @@
         }
       }
     },
+    "%lld rides" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld trajets"
+          }
+        }
+      }
+    },
     "%lld stands" : {
       "localizations" : {
         "fr" : {
@@ -223,6 +256,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld stations, %lld %@ au total. Touchez deux fois pour zoomer."
+          }
+        }
+      }
+    },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
           }
         }
       }
@@ -342,6 +385,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compte"
+          }
+        }
+      }
+    },
+    "Achievements" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Succès"
           }
         }
       }
@@ -572,6 +625,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En cours d'installation"
+          }
+        }
+      }
+    },
+    "Best day" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meilleure journée"
           }
         }
       }
@@ -948,6 +1011,16 @@
         }
       }
     },
+    "Car trips skipped" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trajets en voiture évités"
+          }
+        }
+      }
+    },
     "Cash-equivalent reward" : {
       "localizations" : {
         "fr" : {
@@ -964,6 +1037,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Centrer sur ma position"
+          }
+        }
+      }
+    },
+    "Centurion" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centurion"
           }
         }
       }
@@ -1028,12 +1111,52 @@
         }
       }
     },
+    "Commuter" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendulaire"
+          }
+        }
+      }
+    },
     "Compared to driving" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Par rapport à la voiture"
+          }
+        }
+      }
+    },
+    "Complete 10 rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 10 trajets."
+          }
+        }
+      }
+    },
+    "Complete 50 rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 50 trajets."
+          }
+        }
+      }
+    },
+    "Complete 100 rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 100 trajets."
           }
         }
       }
@@ -1332,6 +1455,16 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        }
+      }
+    },
     "Due now" : {
       "localizations" : {
         "fr" : {
@@ -1363,6 +1496,16 @@
         }
       }
     },
+    "Early Bird" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lève-tôt"
+          }
+        }
+      }
+    },
     "electric" : {
       "localizations" : {
         "fr" : {
@@ -1389,6 +1532,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Électriques %lld"
+          }
+        }
+      }
+    },
+    "Electric Avenue" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout électrique"
           }
         }
       }
@@ -1449,6 +1602,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur"
+          }
+        }
+      }
+    },
+    "Explorer" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorateur"
           }
         }
       }
@@ -1554,6 +1717,16 @@
         }
       }
     },
+    "First Ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premier trajet"
+          }
+        }
+      }
+    },
     "Flagged as litigious" : {
       "localizations" : {
         "fr" : {
@@ -1641,6 +1814,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Commencer"
+          }
+        }
+      }
+    },
+    "Getting Rolling" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En route"
           }
         }
       }
@@ -1777,6 +1960,16 @@
     },
     "km" : {
 
+    },
+    "Last 6 months" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 derniers mois"
+          }
+        }
+      }
     },
     "Last rated" : {
       "localizations" : {
@@ -2088,6 +2281,26 @@
         }
       }
     },
+    "Night Owl" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oiseau de nuit"
+          }
+        }
+      }
+    },
+    "No active booking to unlock." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune réservation active à déverrouiller."
+          }
+        }
+      }
+    },
     "No active booking." : {
       "localizations" : {
         "fr" : {
@@ -2114,6 +2327,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun abonnement Vélo'v actif sur votre compte. (%@)"
+          }
+        }
+      }
+    },
+    "No bike available to unlock here." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo disponible à déverrouiller ici."
           }
         }
       }
@@ -2329,6 +2553,16 @@
         }
       }
     },
+    "On a Roll" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur sa lancée"
+          }
+        }
+      }
+    },
     "On foot" : {
       "localizations" : {
         "fr" : {
@@ -2449,6 +2683,16 @@
         }
       }
     },
+    "Pause" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause"
+          }
+        }
+      }
+    },
     "Paused" : {
       "localizations" : {
         "fr" : {
@@ -2485,6 +2729,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le détail vélo par vélo n'est pas disponible dans cette version : il nécessite l'identifiant de client web anonyme du site public, que ce dépôt open source ne fournit pas."
+          }
+        }
+      }
+    },
+    "Play" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture"
           }
         }
       }
@@ -2536,6 +2790,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En cours de traitement"
+          }
+        }
+      }
+    },
+    "Purist" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puriste"
           }
         }
       }
@@ -2620,6 +2884,16 @@
         }
       }
     },
+    "Records" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Records"
+          }
+        }
+      }
+    },
     "Records your ride's path and uploads it to your Vélo'v account when you dock, so past rides show a real route on the map instead of just the start and end stations. Uses GPS in the background while you're riding." : {
       "localizations" : {
         "fr" : {
@@ -2666,6 +2940,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remboursé"
+          }
+        }
+      }
+    },
+    "Regular" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habitué"
           }
         }
       }
@@ -2730,6 +3014,26 @@
         }
       }
     },
+    "Replay" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relecture"
+          }
+        }
+      }
+    },
+    "Replay Ride" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revoir le trajet"
+          }
+        }
+      }
+    },
     "Requested" : {
       "localizations" : {
         "fr" : {
@@ -2746,6 +3050,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réservé"
+          }
+        }
+      }
+    },
+    "Restart" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommencer"
           }
         }
       }
@@ -2900,6 +3214,16 @@
         }
       }
     },
+    "Ride for 60 minutes in one go." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roulez 60 minutes d'affilée."
+          }
+        }
+      }
+    },
     "Ride History" : {
       "localizations" : {
         "fr" : {
@@ -2910,12 +3234,42 @@
         }
       }
     },
+    "Ride in 4 weeks in a row." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roulez 4 semaines de suite."
+          }
+        }
+      }
+    },
+    "Ride in 12 weeks in a row." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roulez 12 semaines de suite."
+          }
+        }
+      }
+    },
     "Ride lasted %@." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trajet de %@."
+          }
+        }
+      }
+    },
+    "Ride this week to start a new streak. Your best is %lld weeks." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roulez cette semaine pour lancer une nouvelle série. Votre record est de %lld semaines."
           }
         }
       }
@@ -2946,6 +3300,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En route · Vélo n° %@"
+          }
+        }
+      }
+    },
+    "Riding streak" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Série de trajets"
           }
         }
       }
@@ -3046,6 +3410,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se connecter"
+          }
+        }
+      }
+    },
+    "Sign in on your iPhone to unlock." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous sur votre iPhone pour déverrouiller."
           }
         }
       }
@@ -3270,6 +3644,26 @@
         }
       }
     },
+    "Start a ride after 10 p.m." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrez un trajet après 22 h."
+          }
+        }
+      }
+    },
+    "Start a ride before 7 a.m." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrez un trajet avant 7 h."
+          }
+        }
+      }
+    },
     "Start a ride from overflow parking" : {
       "localizations" : {
         "fr" : {
@@ -3326,6 +3720,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nom de la station"
+          }
+        }
+      }
+    },
+    "Stations visited" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stations visitées"
           }
         }
       }
@@ -3390,12 +3794,92 @@
         }
       }
     },
+    "Take 10 electric rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 10 trajets en vélo électrique."
+          }
+        }
+      }
+    },
+    "Take 10 mechanical rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 10 trajets en vélo mécanique."
+          }
+        }
+      }
+    },
+    "Take 10 weekend rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 10 trajets le week-end."
+          }
+        }
+      }
+    },
+    "Take 20 weekday rides." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez 20 trajets en semaine."
+          }
+        }
+      }
+    },
     "Take a bike from a full station" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prendre un vélo dans une station pleine"
+          }
+        }
+      }
+    },
+    "Take bike #%@ — 60 seconds." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prenez le vélo n°%@ — 60 secondes."
+          }
+        }
+      }
+    },
+    "Take bike #%@ from stand %lld — 60 seconds." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prenez le vélo n°%@ à la borne %lld — 60 secondes."
+          }
+        }
+      }
+    },
+    "Take the bike from stand %lld — 60 seconds." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prenez le vélo à la borne %lld — 60 secondes."
+          }
+        }
+      }
+    },
+    "Take your first Vélo'v ride." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effectuez votre premier trajet Vélo'v."
           }
         }
       }
@@ -3476,6 +3960,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les 15 minutes supplémentaires ne s'appliquent que si votre station d'arrivée n'a aucune place libre."
+          }
+        }
+      }
+    },
+    "The Long Way" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La longue route"
           }
         }
       }
@@ -3760,6 +4254,16 @@
         }
       }
     },
+    "Unknown request." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requête inconnue."
+          }
+        }
+      }
+    },
     "Unknown station" : {
       "localizations" : {
         "fr" : {
@@ -3810,6 +4314,26 @@
         }
       }
     },
+    "Unlocked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloqué"
+          }
+        }
+      }
+    },
+    "Unlocked — take the bike out within 60 seconds." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouillé — sortez le vélo dans les 60 secondes."
+          }
+        }
+      }
+    },
     "Unlocking bike #%@…" : {
       "localizations" : {
         "fr" : {
@@ -3856,6 +4380,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Injoignable"
+          }
+        }
+      }
+    },
+    "Unstoppable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inarrêtable"
           }
         }
       }
@@ -3990,6 +4524,16 @@
         }
       }
     },
+    "Vélo'v turned down the unlock (%@). Try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo'v a refusé le déverrouillage (%@). Réessayez."
+          }
+        }
+      }
+    },
     "Vélo'v won't share per-bike detail with this account." : {
       "localizations" : {
         "fr" : {
@@ -4040,6 +4584,16 @@
         }
       }
     },
+    "Visit 15 different stations." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visitez 15 stations différentes."
+          }
+        }
+      }
+    },
     "Walking Directions" : {
       "localizations" : {
         "fr" : {
@@ -4076,6 +4630,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avertissement"
+          }
+        }
+      }
+    },
+    "week in a row" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "semaine d'affilée"
+          }
+        }
+      }
+    },
+    "Weekend Warrior" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guerrier du week-end"
+          }
+        }
+      }
+    },
+    "weeks in a row" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "semaines d'affilée"
           }
         }
       }
@@ -4176,6 +4760,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous êtes à %@"
+          }
+        }
+      }
+    },
+    "Your best streak is %lld weeks." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre meilleure série est de %lld semaines."
           }
         }
       }
