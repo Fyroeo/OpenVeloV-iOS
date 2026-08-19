@@ -24,6 +24,8 @@ targets:
         product: VLSKitUI
       - target: TripLiveActivityExtension
         embed: true
+      - target: OpenVeloVWatch
+        embed: true
     # Pulls in Config/Secrets.xcconfig when it exists; the build works without it.
     configFiles:
       Debug: Config/App.xcconfig
@@ -67,6 +69,61 @@ targets:
         SKIP_INSTALL: YES
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 2MDRGC529Z
+  OpenVeloVWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: OpenVeloVWatch
+      - path: OpenVeloVWatchShared
+      # Shared message vocabulary, compiled into both the phone and watch so they can't drift.
+      - path: Shared/WatchLink.swift
+    dependencies:
+      # GBFS is public, so the watch app needs no account and no API key.
+      - package: VLSKit
+        product: VLSKit
+      - target: OpenVeloVWatchWidget
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov.watchkitapp
+        PRODUCT_NAME: OpenVeloV
+        SWIFT_VERSION: "5.9"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        MARKETING_VERSION: "0.4.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "4"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: OpenVeloVWatch/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2MDRGC529Z
+  OpenVeloVWatchWidget:
+    type: app-extension
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: OpenVeloVWatchWidget
+      - path: OpenVeloVWatchShared
+    dependencies:
+      - package: VLSKit
+        product: VLSKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: net.socialeo.openvelov.watchkitapp.widget
+        PRODUCT_NAME: OpenVeloVWatchWidget
+        SWIFT_VERSION: "5.9"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        MARKETING_VERSION: "0.4.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "4"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: OpenVeloVWatchWidget/Info.plist
+        SKIP_INSTALL: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2MDRGC529Z
   OpenVeloVTests:
     type: bundle.unit-test
     platform: iOS
@@ -95,5 +152,21 @@ schemes:
       config: Debug
       targets:
         - OpenVeloVTests
+    archive:
+      config: Release
+  OpenVeloVWatch:
+    build:
+      targets:
+        OpenVeloVWatch: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  OpenVeloVWatchWidget:
+    build:
+      targets:
+        OpenVeloVWatchWidget: all
+    run:
+      config: Debug
     archive:
       config: Release

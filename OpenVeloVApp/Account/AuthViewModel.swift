@@ -6,7 +6,9 @@ import VLSKitUI
 final class AuthViewModel: ObservableObject {
     let client: VLSClient
 
-    @Published private(set) var isAuthenticated = false
+    @Published private(set) var isAuthenticated = false {
+        didSet { PhoneWatchConnectivity.shared.updateAuth(isAuthenticated) }
+    }
     @Published private(set) var account: Account?
     @Published private(set) var isLoadingAccount = false
     @Published private(set) var reward: Reward?
@@ -26,10 +28,10 @@ final class AuthViewModel: ObservableObject {
 
     var onAccountLoaded: ((UUID) async -> Void)?
 
-    /// Not a bare `VLSEnvironment.lyon`: that preset ships empty web-client credentials, and
-    /// authenticated calls also need the anonymous `Authorization: Taknv1` token minted from them.
-    init(environment: VLSEnvironment = AppSecrets.environment, favorites: FavoritesStore) {
-        self.client = VLSClient(environment: environment, tokenStore: KeychainTokenStore())
+    /// Uses the process-wide `AppClient.shared` so the watch-unlock handler and the UI never run
+    /// two auth sessions against the same rotating refresh token.
+    init(favorites: FavoritesStore) {
+        self.client = AppClient.shared
         self.favorites = favorites
     }
 

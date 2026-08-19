@@ -14,6 +14,7 @@ final class TripViewModel: ObservableObject {
     private var tripPollTask: Task<Void, Never>?
     private var rideStartWatchTask: Task<Void, Never>?
     private var rideStartBackgroundTaskID: UIBackgroundTaskIdentifier = .invalid
+    private var watchUnlockObserver: NSObjectProtocol?
 
     /// Fired only on the transition into a ride, not on every poll that still sees one.
     var onTripStarted: (() async -> Void)?
@@ -22,6 +23,23 @@ final class TripViewModel: ObservableObject {
         self.authViewModel = authViewModel
         self.settings = settings
         self.locationService = locationService
+        // A watch-triggered unlock happens outside this view model, so start ride-start polling
+        // (and thus the Live Activity) as soon as the phone hears the unlock succeeded.
+        watchUnlockObserver = NotificationCenter.default.addObserver(
+            forName: .watchDidUnlock, object: nil, queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                await self.refreshActiveTrip()
+                self.watchForRideStart()
+            }
+        }
+    }
+
+    deinit {
+        if let watchUnlockObserver {
+            NotificationCenter.default.removeObserver(watchUnlockObserver)
+        }
     }
 
     func refreshActiveTrip() async {

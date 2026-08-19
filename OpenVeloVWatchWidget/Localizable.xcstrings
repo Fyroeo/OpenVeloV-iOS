@@ -1,0 +1,69 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld" : {
+
+    },
+    "%lld bikes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld vélos"
+          }
+        }
+      }
+    },
+    "Nearest Bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo le plus proche"
+          }
+        }
+      }
+    },
+    "No bikes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo"
+          }
+        }
+      }
+    },
+    "No bikes nearby" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo à proximité"
+          }
+        }
+      }
+    },
+    "Open the app to refresh" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez l'app pour actualiser"
+          }
+        }
+      }
+    },
+    "The closest station with a bike ready to ride." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La station la plus proche avec un vélo prêt à rouler."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

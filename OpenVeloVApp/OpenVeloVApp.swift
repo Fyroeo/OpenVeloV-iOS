@@ -4,6 +4,7 @@ import SwiftUI
 struct OpenVeloVApp: App {
     init() {
         BackgroundRefreshManager.register()
+        PhoneWatchConnectivity.shared.activate()
     }
 
     var body: some Scene {

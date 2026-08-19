@@ -1,0 +1,285 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ away" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à %@"
+          }
+        }
+      }
+    },
+    "%@: %lld mechanical, %lld electric, %lld docks" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %lld mécaniques, %lld électriques, %lld places"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "Bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo"
+          }
+        }
+      }
+    },
+    "Bike #%@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo n°%@"
+          }
+        }
+      }
+    },
+    "Booked bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vélo réservé"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Couldn't load stations." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les stations."
+          }
+        }
+      }
+    },
+    "Dock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place"
+          }
+        }
+      }
+    },
+    "Held until %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gardé jusqu'à %@"
+          }
+        }
+      }
+    },
+    "iPhone unreachable. Open OpenVeloV on your iPhone." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone injoignable. Ouvrez OpenVeloV sur votre iPhone."
+          }
+        }
+      }
+    },
+    "Nearby" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À proximité"
+          }
+        }
+      }
+    },
+    "Nearest" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plus proche"
+          }
+        }
+      }
+    },
+    "No bikes available here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun vélo disponible ici."
+          }
+        }
+      }
+    },
+    "None nearby" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun à proximité"
+          }
+        }
+      }
+    },
+    "Open OpenVeloV on your iPhone to pick a bike." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez OpenVeloV sur votre iPhone pour choisir un vélo."
+          }
+        }
+      }
+    },
+    "Open OpenVeloV on your iPhone to unlock." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez OpenVeloV sur votre iPhone pour déverrouiller."
+          }
+        }
+      }
+    },
+    "Open OpenVeloV on your iPhone, then try again." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez OpenVeloV sur votre iPhone, puis réessayez."
+          }
+        }
+      }
+    },
+    "Pick a bike" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez un vélo"
+          }
+        }
+      }
+    },
+    "Retry" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayer"
+          }
+        }
+      }
+    },
+    "Sign in on your iPhone to unlock." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous sur votre iPhone pour déverrouiller."
+          }
+        }
+      }
+    },
+    "Stand %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borne %@"
+          }
+        }
+      }
+    },
+    "This station's number couldn't be read." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le numéro de cette station n'a pas pu être lu."
+          }
+        }
+      }
+    },
+    "Unlock" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller"
+          }
+        }
+      }
+    },
+    "Unlock a bike at this station?" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller un vélo à cette station ?"
+          }
+        }
+      }
+    },
+    "Unlock a bike here" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller un vélo ici"
+          }
+        }
+      }
+    },
+    "Unlock bike #%@?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller le vélo n°%@ ?"
+          }
+        }
+      }
+    },
+    "Unlock this bike?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller ce vélo ?"
+          }
+        }
+      }
+    },
+    "Vélo'v" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -118,6 +118,11 @@ final class BookingViewModel: ObservableObject {
             return
         }
         let display = await resolveBookingDisplay(booking)
+        PhoneWatchConnectivity.shared.updateBooking(
+            bikeNumber: display.bikeNumber,
+            stationName: display.stationName,
+            endTime: booking.endTime
+        )
         let standNumber = booking.standNumber.map(Int.init)
         if hadActiveBooking {
             LiveActivityManager.updateBooking(endDate: booking.endTime, bikeNumber: display.bikeNumber, stationName: display.stationName, standNumber: standNumber, isElectric: display.isElectric)
@@ -144,6 +149,7 @@ final class BookingViewModel: ObservableObject {
         NotificationManager.cancelBookingExpiry()
         NotificationManager.cancelBookingArrival()
         locationService.stopWatchingBooking()
+        PhoneWatchConnectivity.shared.clearBooking()
     }
 
     /// A `Booking` carries only `stationNumber` and `bikeId`, so the station name, coordinate and

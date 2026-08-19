@@ -9,6 +9,7 @@ struct TripDetailView: View {
     @ObservedObject var authVM: AuthViewModel
 
     @State private var showRating = false
+    @State private var showReplay = false
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var routeCoordinates: [CLLocationCoordinate2D] = []
 
@@ -89,6 +90,14 @@ struct TripDetailView: View {
                     .onAppear(perform: fitCamera)
                     .task { await loadRoute() }
                 }
+
+                if routeCoordinates.count > 1 {
+                    Button {
+                        showReplay = true
+                    } label: {
+                        Label("Replay Ride", systemImage: "play.circle.fill")
+                    }
+                }
             }
 
             Section("Timing") {
@@ -156,6 +165,18 @@ struct TripDetailView: View {
         .sheet(isPresented: $showRating) {
             RateBikeView(trip: trip, authVM: authVM)
         }
+        .fullScreenCover(isPresented: $showReplay) {
+            RouteReplayView(
+                coordinates: routeCoordinates,
+                tripDuration: tripReplayDuration,
+                isElectric: trip.bikeType == .electrical
+            )
+        }
+    }
+
+    private var tripReplayDuration: TimeInterval? {
+        guard let start = trip.startDateTime, let end = trip.endDateTime else { return nil }
+        return end.timeIntervalSince(start)
     }
 
     private func loadRoute() async {
